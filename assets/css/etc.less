@@ -6,6 +6,22 @@
 	.transition(@variable);
 }
 
+//Prefix notation(frame framework)
+/*
+* .c-*         element horizontal size from current @media
+* .v-*         element visibility from current @media
+* .s-*         element state(active/disabled/hover/focus & etc.)
+* .col-*       element grid column by horizontal size
+* .row         element grid row
+*/
+
+//etc notation
+/*
+* .etc-active  core class selector for know what etc now enabled and active
+* .etc-block   selector for all etc-blocks
+* .etc-accent  selector for accent to etc-block
+*/
+
 h1{
 	font-size: 120%;
 	font-weight: 400;
@@ -24,7 +40,7 @@ html{
 		}
 	}
 }
-.dragzone{
+.dropzone{
 	.defShowFx(background 1s);
 	&:before{
 		margin: 0 auto;
@@ -35,13 +51,9 @@ html{
 		font-size:4em;
 		opacity:0;
 	}
-	&.state-{
+	&.s-{
 		&dragenter{
 			background: #aaa;
-			/*&:before{
-				opacity: .4;
-				.defShowFx(opacity 1s);
-			}*/
 		}
 	}
 }

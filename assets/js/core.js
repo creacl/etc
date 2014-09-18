@@ -7,18 +7,15 @@ WebFontConfig = {
 };
 
 var etc = {};
+etc = {
+	dropZone : $("body").addClass("dropzone state-ready")
+}
 
-$(document).on('dragenter dragover drop', function (e) {
+
+// TODO: rewrite all upload functions and move to single file
+$(document).on('dragenter dragover drop', function () {
 	return false;
 });
-
-var dropZone = $("body");
-dropZone.addClass("dragzone state-ready");
-
-/**
- *
- * @param obj
- */
 function createStatusbar(obj) {
 	
 	this.statusbar = $("<div class='statusbar " + row + "'></div>");
@@ -57,13 +54,9 @@ function createStatusbar(obj) {
 		});
 	}
 }
-/**
- *
- * @param formData
- * @param status
- */
-function sendFileToServer(formData, status) {
-	var uploadURL = "/upload.php"; //Upload URL
+
+function sendFileToServer(formData, status,uploadURL) {
+	uploadURL = uploadURL || "/upload.php"; //Upload URL
 	var extraData = {};
 	var jqXHR = $.ajax({
 		xhr: function () {
@@ -106,17 +99,15 @@ function handleFileUpload(files, obj) {
 		console.log(fd)
 	});
 }
-
-dropZone.on("drop", function (e) {
+etc.dropZone.on("drop", function (e) {
+	var self = $(this);
 	var files = e.originalEvent.dataTransfer.files;
-	handleFileUpload(files, dropZone);
-
-	console.log(files);
+	handleFileUpload(files, self);
 }).on("dragenter dragleave", function (e) {
 	var self = $(this);
-	dropZone.toggleClass("state-ready " + (e.type == "dragenter") ? "state-dragenter" : "");
-
+	self.toggleClass("s-ready " + (e.type == "dragenter") ? "s-dragenter" : "");
 }).on("dragover", function (e) {
 
 });
+// end of upload functions
 

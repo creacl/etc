@@ -510,6 +510,18 @@ button,
 .c-all-100 {
   width: 100%;
 }
+/*
+* .c-*         element horizontal size from current @media
+* .v-*         element visibility from current @media
+* .s-*         element state(active/disabled/hover/focus & etc.)
+* .col-*       element grid column by horizontal size
+* .row         element grid row
+*/
+/*
+* .etc-active  core class selector for know what etc now enabled and active
+* .etc-block   selector for all etc-blocks
+* .etc-accent  selector for accent to etc-block
+*/
 h1 {
   font-size: 120%;
   font-weight: 400;
@@ -528,13 +540,13 @@ html body {
 html.wf-active body {
   opacity: 1;
 }
-.dragzone {
+.dropzone {
   -webkit-transition: background 1s;
   -moz-transition: background 1s;
   -o-transition: background 1s;
   transition: background 1s;
 }
-.dragzone:before {
+.dropzone:before {
   margin: 0 auto;
   position: absolute;
   display: block;
@@ -543,10 +555,6 @@ html.wf-active body {
   font-size: 4em;
   opacity: 0;
 }
-.dragzone.state-dragenter {
+.dropzone.s-dragenter {
   background: #aaa;
-  /*&:before{
-				opacity: .4;
-				.defShowFx(opacity 1s);
-			}*/
 }

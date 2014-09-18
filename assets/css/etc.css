@@ -514,6 +514,10 @@ h1 {
   font-size: 120%;
   font-weight: 400;
 }
+html,
+body {
+  height: 100%;
+}
 html body {
   opacity: 0;
   -webkit-transition: opacity 0.2s;
@@ -523,4 +527,26 @@ html body {
 }
 html.wf-active body {
   opacity: 1;
+}
+.dragzone {
+  -webkit-transition: background 1s;
+  -moz-transition: background 1s;
+  -o-transition: background 1s;
+  transition: background 1s;
+}
+.dragzone:before {
+  margin: 0 auto;
+  position: absolute;
+  display: block;
+  left: 47%;
+  top: 50%;
+  font-size: 4em;
+  opacity: 0;
+}
+.dragzone.state-dragenter {
+  background: #aaa;
+  /*&:before{
+				opacity: .4;
+				.defShowFx(opacity 1s);
+			}*/
 }

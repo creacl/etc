@@ -10,6 +10,9 @@ h1{
 	font-size: 120%;
 	font-weight: 400;
 }
+html,body{
+	height:100%;
+}
 html{
 	body{
 		opacity: 0;
@@ -18,6 +21,27 @@ html{
 	&.wf-active{
 		body{
 			opacity: 1;
+		}
+	}
+}
+.dragzone{
+	.defShowFx(background 1s);
+	&:before{
+		margin: 0 auto;
+		position: absolute;
+		display: block;
+		left:47%;
+		top:50%;
+		font-size:4em;
+		opacity:0;
+	}
+	&.state-{
+		&dragenter{
+			background: #aaa;
+			/*&:before{
+				opacity: .4;
+				.defShowFx(opacity 1s);
+			}*/
 		}
 	}
 }

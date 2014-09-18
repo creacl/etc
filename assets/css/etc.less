@@ -1,1 +1,23 @@
 @import "vendors/frame/css/frame/base.less";
+@defFontFamily: 'Roboto', sans-serif;
+@headerFontFamily: 'Roboto', sans-serif;
+
+.defShowFx(@variable:opacity 0.2s){
+	.transition(@variable);
+}
+
+h1{
+	font-size: 120%;
+	font-weight: 400;
+}
+html{
+	body{
+		opacity: 0;
+		.defShowFx();
+	}
+	&.wf-active{
+		body{
+			opacity: 1;
+		}
+	}
+}

@@ -186,7 +186,7 @@ body {
 /******************************************/
 /******************************************/
 body {
-  font-family: 'PT Sans';
+  font-family: 'Roboto', sans-serif;
   font-size: 1em;
 }
 h1,
@@ -195,7 +195,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'PT Sans';
+  font-family: 'Roboto', sans-serif;
   font-size: 1em;
   margin-bottom: 0.25em;
 }
@@ -509,4 +509,18 @@ button,
 }
 .c-all-100 {
   width: 100%;
+}
+h1 {
+  font-size: 120%;
+  font-weight: 400;
+}
+html body {
+  opacity: 0;
+  -webkit-transition: opacity 0.2s;
+  -moz-transition: opacity 0.2s;
+  -o-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+}
+html.wf-active body {
+  opacity: 1;
 }

@@ -2,6 +2,9 @@
 @defFontFamily: 'Roboto', sans-serif;
 @headerFontFamily: 'Roboto', sans-serif;
 
+@_prefix:etc;
+
+
 .defShowFx(@variable:opacity 0.2s){
 	.transition(@variable);
 }
@@ -10,7 +13,7 @@
 /*
 * .c-*         element horizontal size from current @media
 * .v-*         element visibility from current @media
-* .s-*         element state(active/disabled/hover/focus & etc.)
+* .s-*         element state(active/disabled/hover/focus,ready & etc.)
 * .col-*       element grid column by horizontal size
 * .row         element grid row
 */
@@ -20,12 +23,9 @@
 * .etc-active  core class selector for know what etc now enabled and active
 * .etc-block   selector for all etc-blocks
 * .etc-accent  selector for accent to etc-block
+* .etc-dropzone selector for file uploader dropzone
 */
 
-h1{
-	font-size: 120%;
-	font-weight: 400;
-}
 html,body{
 	height:100%;
 }
@@ -40,20 +40,69 @@ html{
 		}
 	}
 }
-.dropzone{
-	.defShowFx(background 1s);
-	&:before{
-		margin: 0 auto;
-		position: absolute;
-		display: block;
-		left:47%;
-		top:50%;
-		font-size:4em;
-		opacity:0;
+.@{_prefix}{
+	&-block{
+		.box-sizing(border-box);
 	}
-	&.s-{
-		&dragenter{
-			background: #aaa;
+	&-accent{
+
+	}
+	&-dropzone{
+		position: fixed;
+		top:0;
+		bottom:0;
+		left:0;
+		right:0;
+		display: none;
+		text-align: center;
+
+		.defShowFx(background 1s);
+		&:before{
+			margin: 0 auto;
+			position: absolute;
+			display: block;
+			left:47%;
+			top:50%;
+			font-size:4em;
+			opacity:0;
+		}
+		&.s{
+			&-dragenter,&-drop{
+				background: rgba(0,0,0,0.5);
+			}
+		}
+		&-body{
+			margin:0 auto;
+			display: inline-block;
+			text-align: left;
+			//position: fixed;
+			.@{_prefix}-block{
+				display:inline-block;
+				height:40px;
+				width:40px;
+				margin:4px;
+				overflow: hidden;
+				text-align: center;
+				background: #fff;
+				color:#777777;
+				.border-radius(1px);
+				.box-shadow(0 0 4px rgba(0,0,0,0.4));
+				//text-shadow:0 1px 0 rgba(0,0,0,0.2);
+				.@{_prefix}-progress{
+					height:3px;
+					&-bar{
+						height:100%;
+						background: rgba(23, 94, 160, 0.5);
+					}
+				}
+				&-title{
+					margin-top:0.6em;
+					//color:#fff;
+					font-weight: 100;
+					text-transform: uppercase;
+				}
+			}
 		}
 	}
 }
+

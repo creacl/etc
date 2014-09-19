@@ -513,7 +513,7 @@ button,
 /*
 * .c-*         element horizontal size from current @media
 * .v-*         element visibility from current @media
-* .s-*         element state(active/disabled/hover/focus & etc.)
+* .s-*         element state(active/disabled/hover/focus,ready & etc.)
 * .col-*       element grid column by horizontal size
 * .row         element grid row
 */
@@ -521,11 +521,8 @@ button,
 * .etc-active  core class selector for know what etc now enabled and active
 * .etc-block   selector for all etc-blocks
 * .etc-accent  selector for accent to etc-block
+* .etc-dropzone selector for file uploader dropzone
 */
-h1 {
-  font-size: 120%;
-  font-weight: 400;
-}
 html,
 body {
   height: 100%;
@@ -540,13 +537,25 @@ html body {
 html.wf-active body {
   opacity: 1;
 }
-.dropzone {
+.etc-block {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.etc-dropzone {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: none;
+  text-align: center;
   -webkit-transition: background 1s;
   -moz-transition: background 1s;
   -o-transition: background 1s;
   transition: background 1s;
 }
-.dropzone:before {
+.etc-dropzone:before {
   margin: 0 auto;
   position: absolute;
   display: block;
@@ -555,6 +564,43 @@ html.wf-active body {
   font-size: 4em;
   opacity: 0;
 }
-.dropzone.s-dragenter {
-  background: #aaa;
+.etc-dropzone.s-dragenter,
+.etc-dropzone.s-drop {
+  background: rgba(0, 0, 0, 0.5);
+}
+.etc-dropzone-body {
+  margin: 0 auto;
+  display: inline-block;
+  text-align: left;
+}
+.etc-dropzone-body .etc-block {
+  display: inline-block;
+  height: 40px;
+  width: 40px;
+  margin: 4px;
+  overflow: hidden;
+  text-align: center;
+  background: #fff;
+  color: #777777;
+  -webkit-border-radius: 1px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 1px;
+  -moz-background-clip: padding;
+  border-radius: 1px;
+  background-clip: padding-box;
+  -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+}
+.etc-dropzone-body .etc-block .etc-progress {
+  height: 3px;
+}
+.etc-dropzone-body .etc-block .etc-progress-bar {
+  height: 100%;
+  background: rgba(23, 94, 160, 0.5);
+}
+.etc-dropzone-body .etc-block-title {
+  margin-top: 0.6em;
+  font-weight: 100;
+  text-transform: uppercase;
 }

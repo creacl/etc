@@ -79,13 +79,14 @@ body {
 @formHoverBorderColor: darken(@formDefBorderColor, 10%);
 @formFocusBorderColor: darken(@formDefBorderColor, 20%);
 
+@formDefBackground:#fff;
+
 .formInput {
 	font-size: @textFormFontSize;
-	background: #fff;
+	background: @formDefBackground;
 	color: @formDefColor;
 	border: 1px solid #ccc;
-	.border-radius(2px);
-
+	.border-radius(0);
 }
 
 .formInputFocus {
@@ -94,6 +95,10 @@ body {
 }
 
 .formInputHover {
+	color: @formHoverColor;
+	border-color: @formHoverBorderColor;
+}
+.formInputActive {
 	color: @formHoverColor;
 	border-color: @formHoverBorderColor;
 }

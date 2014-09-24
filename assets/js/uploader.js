@@ -3,6 +3,7 @@
  */
 
 (function (window) {
+
 	$(document).on('dragenter dragover drop dragleave', function (e) {
 		var selector = etc.dropZone.selector;
 		if (e.type == 'dragenter') {
@@ -18,6 +19,7 @@
 		}
 		return false;
 	});
+
 	function createStatusbar(obj) {
 		var dropZone = $(etc.dropZone.selector);
 

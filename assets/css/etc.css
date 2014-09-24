@@ -155,27 +155,31 @@ body {
 /******************************************/
 .formFont {
   font-family: 'PT Sans';
-  font-size: 1em;
+  font-size: 14px;
   line-height: 1em;
 }
 .formInput {
   font-size: 120%;
-  background: #fff;
-  color: #666666;
+  background: #f1e05a;
+  color: #222222;
   border: 1px solid #ccc;
-  -webkit-border-radius: 2px;
+  -webkit-border-radius: 0;
   -webkit-background-clip: padding-box;
-  -moz-border-radius: 2px;
+  -moz-border-radius: 0;
   -moz-background-clip: padding;
-  border-radius: 2px;
+  border-radius: 0;
   background-clip: padding-box;
 }
 .formInputFocus {
-  color: #333333;
+  color: #000000;
   border-color: #999999;
 }
 .formInputHover {
-  color: #4d4d4d;
+  color: #080808;
+  border-color: #b3b3b3;
+}
+.formInputActive {
+  color: #080808;
   border-color: #b3b3b3;
 }
 ::selection {
@@ -187,7 +191,7 @@ body {
 /******************************************/
 body {
   font-family: 'Roboto', sans-serif;
-  font-size: 1em;
+  font-size: 14px;
 }
 h1,
 h2,
@@ -196,8 +200,8 @@ h4,
 h5,
 h6 {
   font-family: 'Roboto', sans-serif;
-  font-size: 1em;
-  margin-bottom: 0.25em;
+  font-size: 14px;
+  margin-bottom: 3.5px;
 }
 h6 {
   font-size: 166.66666667%;
@@ -232,7 +236,7 @@ select,
 textarea,
 button {
   font-family: 'PT Sans';
-  font-size: 1em;
+  font-size: 14px;
   line-height: 1em;
 }
 blockquote {
@@ -254,28 +258,36 @@ input:focus,
 select:focus,
 textarea:focus,
 button:focus {
-  color: #333333;
+  color: #000000;
   border-color: #999999;
 }
 input:hover,
 select:hover,
 textarea:hover,
 button:hover {
-  color: #4d4d4d;
+  color: #080808;
+  border-color: #b3b3b3;
+}
+button {
+  color: #222222;
+  background: #f1e05a;
+}
+button:active {
+  color: #080808;
   border-color: #b3b3b3;
 }
 input,
 textarea,
 select {
   font-size: 120%;
-  background: #fff;
-  color: #666666;
+  background: #f1e05a;
+  color: #222222;
   border: 1px solid #ccc;
-  -webkit-border-radius: 2px;
+  -webkit-border-radius: 0;
   -webkit-background-clip: padding-box;
-  -moz-border-radius: 2px;
+  -moz-border-radius: 0;
   -moz-background-clip: padding;
-  border-radius: 2px;
+  border-radius: 0;
   background-clip: padding-box;
 }
 select {
@@ -510,6 +522,25 @@ button,
 .c-all-100 {
   width: 100%;
 }
+/*@columnPadding: 5px 5px;
+.row {
+	.col {
+		border: 1px solid #ddd;
+		text-align: center;
+	}
+}*/
+.test.etc-block {
+  margin-left: 40px;
+  margin-top: 40px;
+  width: 200px;
+  height: 300px;
+}
+.defBlockActive {
+  outline-color: rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+}
 /*
 * .c-*         element horizontal size from current @media
 * .v-*         element visibility from current @media
@@ -538,9 +569,40 @@ html.wf-active body {
   opacity: 1;
 }
 .etc-block {
+  outline: 1px solid rgba(255, 255, 255, 0);
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+}
+.etc-active .etc-block {
+  outline-color: rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+}
+.etc-toolbar {
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+}
+.etc-toolbar-switch {
+  z-index: 10000;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+.etc-button {
+  font-size: 1.4em;
+}
+.etc-button-icon {
+  padding: 0.2em;
+  line-height: 1em;
+  text-align: center;
 }
 .etc-dropzone {
   position: fixed;

@@ -5,9 +5,48 @@
 (function(window) {
 	function init(){
 		var ready;
+
+		var _layout = $("body").attr("data-etc","layout");
+
+		var etcControl = etc.fn.addToolbar({
+			buttons : [
+				{
+					"name":"switch",
+					"click":function(){
+						etc.fn.toggleEditable();
+						return false;
+					},
+					data:{}
+				},
+				etc.fn.addToolbar({
+					buttons : [
+						{"name":"save",data:{}},
+						{"name":"cancel",data:{"bind":"cancelEditing"}}
+					],
+					callback : function(elem){
+						$(elem).hide();
+					},
+					cssClass : "global-control",
+					direction : "h"
+				})
+			],
+			direction : "h",
+			cssClass : "switch"
+		});
+		_layout.append(etcControl);
+
 		// TODO: add status loading control condition
 		ready = true;
-		$("body").addClass("etc-"+((ready)? "ready" : "err"));
+		_layout.addClass(_prefix+"-"+((ready)? "ready" : "err"));
+
+
+		_layout.on("click","[data-etc=button]",function(){
+			var self = $(this);
+			var bind = self.data("bind");
+			if(etc.fn[bind] != undefined) etc.fn[bind](self);
+
+			return false;
+		});
 
 		// TODO: add error message processor
 		var message = "fatal error";

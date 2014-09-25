@@ -154,13 +154,13 @@ body {
 }
 /******************************************/
 .formFont {
-  font-family: 'PT Sans';
+  font-family: 'Roboto', sans-serif;
   font-size: 14px;
   line-height: 1em;
 }
 .formInput {
   font-size: 120%;
-  background: #f1e05a;
+  background: #ffffff;
   color: #222222;
   border: 1px solid #ccc;
   -webkit-border-radius: 0;
@@ -235,7 +235,7 @@ input,
 select,
 textarea,
 button {
-  font-family: 'PT Sans';
+  font-family: 'Roboto', sans-serif;
   font-size: 14px;
   line-height: 1em;
 }
@@ -280,7 +280,7 @@ input,
 textarea,
 select {
   font-size: 120%;
-  background: #f1e05a;
+  background: #ffffff;
   color: #222222;
   border: 1px solid #ccc;
   -webkit-border-radius: 0;
@@ -544,7 +544,7 @@ button,
 /*
 * .c-*         element horizontal size from current @media
 * .v-*         element visibility from current @media
-* .s-*         element state(active/disabled/hover/focus,err,ready & etc.)
+* .s-*         element state(active/disabled/hover/focus,err,ready/open & etc.)
 * .col-*       element grid column by horizontal size
 * .row         element grid row
 */
@@ -597,12 +597,31 @@ html.wf-active body {
   right: 0;
 }
 .etc-button {
-  font-size: 1.4em;
+  font-size: 1.5em;
 }
-.etc-button-icon {
+.etc-button-icon,
+.etc-button-dropdown {
   padding: 0.2em;
   line-height: 1em;
   text-align: center;
+}
+.etc-button-dropdown {
+  background: #dadad7;
+}
+.etc-button-dropdown-toggle {
+  margin-left: 4px;
+  margin-top: -2px;
+}
+.etc-button-dropdown-menu {
+  -webkit-transition: all 2s;
+  -moz-transition: all 2s;
+  -o-transition: all 2s;
+  transition: all 2s;
+  display: none;
+  position: fixed;
+  background: #dadad7;
+  left: 0;
+  right: 0;
 }
 .etc-dropzone {
   position: fixed;

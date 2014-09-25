@@ -1,5 +1,7 @@
 /**
  * Created by kaaboeld on 19.09.14.
+ *
+ * based on code Ravishanker Kusuma in http://hayageek.com/drag-and-drop-file-upload-jquery/
  */
 
 (function (window) {

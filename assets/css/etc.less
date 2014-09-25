@@ -6,7 +6,8 @@
 
 @_prefix:etc;
 @formDefColor:#222;
-@formDefBackground:#f1e05a;
+//@formDefBackground:#f1e05a;
+@buttonDefBackground:#f1e05a;
 @textSize:14px;
 body{
 
@@ -21,11 +22,13 @@ body{
 }
 
 
+
+
 //Prefix notation(frame framework)
 /*
 * .c-*         element horizontal size from current @media
 * .v-*         element visibility from current @media
-* .s-*         element state(active/disabled/hover/focus,err,ready & etc.)
+* .s-*         element state(active/disabled/hover/focus,err,ready/open & etc.)
 * .col-*       element grid column by horizontal size
 * .row         element grid row
 */
@@ -79,14 +82,31 @@ html{
 		right:0;
 	}
 	&-button{
-		font-size:1.4em;
+		font-size:1.5em;
 		//background: ;
-		&-icon{
+		&-icon,&-dropdown{
 			//background: #f1e05a;//rgba(0,0,0,0.2);
 
 			padding: 0.2em;
 			line-height: 1em;
 			text-align: center;
+		}
+		&-dropdown{
+			@dropdownBackground:lighten(desaturate(@buttonDefBackground,80),20);
+			//padding-top: 4px;
+			background: @dropdownBackground;
+			&-toggle{
+				margin-left:4px;
+				margin-top:-2px;
+			}
+			&-menu{
+				.defShowFx(all 2s);
+				display: none;
+				position: fixed;
+				background: @dropdownBackground;
+				left: 0;
+				right: 0;
+			}
 		}
 	}
 	&-dropzone{

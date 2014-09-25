@@ -22,6 +22,9 @@
 		}
 	};
 	_dummy.buttons.icon = _dummy.buttons.base.clone().addClass(_prefix + "-button-icon");
+	_dummy.buttons.dropdown = _dummy.buttons.base.clone().addClass(_prefix + "-button-dropdown").append(
+		$("<i/>").addClass(_prefix+"-button-dropdown-toggle")
+	);
 	_dummy.blocks.text = _dummy.blocks.base.clone().data({"editor": "text"});
 
 	/*var _buttons = {
@@ -38,7 +41,8 @@
 		icons: {
 			"switch": "pencil",
 			"save" : "check",
-			"cancel" : "times"
+			"cancel" : "times",
+			"status":"circle-o"
 		},
 		dropZone: {
 			selector: "." + _prefix + "-dropzone",
@@ -82,6 +86,7 @@
 				var opt = {
 					selector : "",
 					name : "",
+					cssClass: "",
 					type : "icon",
 					data : null,
 					click : function(){}
@@ -93,7 +98,47 @@
 					_dummy.buttons.icon.clone() :
 					_dummy.buttons.base.clone();
 
+				var button;
+				switch(opt.type){
+					case "text":
+						button = _dummy.buttons.base.clone();
+					break;
+					case "dropdown":
+						button = _dummy.buttons.dropdown;
+						button.addClass(_prefixIcon+"bars");
+						var direction = (opt.data.direction != undefined) ? opt.data.direction : "down";
+						var reDirection = "";
+						switch (direction) {
+							case "down":
+								reDirection = "up";
+								break;
+							case "up":
+								reDirection = "down";
+								break;
+							case "left":
+								reDirection = "right";
+								break;
+							case "right":
+								reDirection = "left";
+								break;
+						}
+
+						button.find("."+_prefix+"-button-dropdown-toggle").addClass(_prefixIcon+"angle-"+direction).data("redirection",reDirection);
+
+
+
+						//if(opt.data.direction != undefined) delete opt.data.direction;
+
+					break;
+					default:
+						//opt.type = icon
+						button = _dummy.buttons.icon.clone();
+					break;
+				}
+
 				button.on("click",opt.click);
+
+				if(opt.cssClass != "") button.addClass(_prefix+"-button-"+opt.cssClass);
 
 				if(opt.name != "" && etc.icons[opt.name] != undefined){
 					button.addClass(_prefixIcon+etc.icons[opt.name]+" "+_prefix+"-action-"+opt.name);
@@ -131,8 +176,7 @@
 
 				toolbar.append($("<ul/>").addClass(_prefix+"-toolbar-inner"));
 				$.each(opt.buttons,function(k,v){
-					console.log("typeof",typeof v,v instanceof jQuery)
-					var button; //= (typeof v == "string") ? etc.fn.addButton({"name":v,type:"icon"}) : v;
+					var button;
 					if(v instanceof jQuery) button = v;
 					else if(typeof v == "string") button = etc.fn.addButton({"name":v,type:"icon"});
 					else if(typeof v == "object") button = etc.fn.addButton(v);
@@ -172,6 +216,47 @@
 					}
 				}
 				return fragment;
+			},
+			getPageMenu : function(params){
+				// TODO: replace this dummy function to procuction
+				var opt = {};
+				$.extend(true,opt,params);
+				var content = "";
+				// dummy <title> edit
+				/*$("body").on("keyup keydown","."+_prefix+"-input-page-title",function(){
+					var self = $(this);
+					var val = self.val();
+					if($.trim(val) != "") $("title").text(val);
+				});*/
+				return content;
+			},
+			toggleDropdown : function(elem){
+
+				var sel = _prefix+"-button-dropdown-menu";
+				var dropdownMenu = $("<div/>").addClass(sel);
+
+				var reDirection = elem.find("."+_prefix+"-button-dropdown-toggle").data("redirection");
+				var direction = elem.data("direction");
+				if(!elem.hasClass("s-open")) {
+					var menuHeight = (elem.data("menuheight")) ? elem.data("menuheight") : 40;
+					var elemHeight = elem.outerHeight(true);
+					if (direction == "up") dropdownMenu.css({
+						"margin-top": -(menuHeight + elemHeight) + "px",
+						height: menuHeight
+					});
+					if (elem.next("." + sel).length > 0) elem.next("." + sel).remove();
+
+					var content = (elem.data("content") != undefined && etc.fn[elem.data("content")]) ? etc.fn[elem.data("content")] : "";
+					dropdownMenu.append(content);
+					dropdownMenu.insertAfter(elem).show();
+				}else{
+					elem.next("." + sel).remove();
+				}
+				elem.toggleClass("s-open")
+					.find("."+_prefix+"-button-dropdown-toggle")
+						.toggleClass(_prefixIcon+"angle-"+direction+" "+_prefixIcon+"angle-"+reDirection);
+
+				return true;
 			}
 		}
 	}

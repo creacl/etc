@@ -11,8 +11,8 @@
 @textColor: #333;
 @textFormFontSize: 120%;
 
-@defFontFamily: 'PT Sans';
-@headerFontFamily: 'PT Sans';
+@defFontFamily: 'Roboto';
+@headerFontFamily: 'Roboto';
 
 
 //@textSize;
@@ -44,7 +44,7 @@ body {
 }
 
 //Text default style
-.defFontStyle(@fontFamily:'PT Sans') {
+.defFontStyle(@fontFamily:@defFontFamily) {
 	font-family: @fontFamily;
 	font-size: @textSize;
 }
@@ -56,7 +56,7 @@ body {
 @headerDefColor: @textColor;
 @headerColorize: false;
 
-.headerFontStyle(@fontFamily:'PT Sans') {
+.headerFontStyle(@fontFamily:@headerFontFamily) {
 	font-family: @fontFamily;
 	font-size: @textSize;
 	margin-bottom: @textSize / 4;
@@ -80,6 +80,7 @@ body {
 @formFocusBorderColor: darken(@formDefBorderColor, 20%);
 
 @formDefBackground:#fff;
+@buttonDefBackground:#aaa;
 
 .formInput {
 	font-size: @textFormFontSize;

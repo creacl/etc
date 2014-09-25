@@ -10,6 +10,9 @@
 
 		var etcControl = etc.fn.addToolbar({
 			buttons : [
+				/*{
+					"name":"status"
+				},*/
 				{
 					"name":"switch",
 					"click":function(){
@@ -20,6 +23,7 @@
 				},
 				etc.fn.addToolbar({
 					buttons : [
+						{"name":"store",type:"dropdown",data:{"bind":"toggleDropdown","direction":"up","menuheight":100,"content":"getPageMenu"}},
 						{"name":"save",data:{}},
 						{"name":"cancel",data:{"bind":"cancelEditing"}}
 					],
@@ -44,9 +48,14 @@
 			var self = $(this);
 			var bind = self.data("bind");
 			if(etc.fn[bind] != undefined) etc.fn[bind](self);
-
 			return false;
 		});
+		// TODO: dummy for confirm close window if editing active
+		/*
+		$(window).bind("beforeunload", function() {
+			var message = "";
+			return message;
+		});*/
 
 		// TODO: add error message processor
 		var message = "fatal error";

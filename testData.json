@@ -1,1 +1,5 @@
-{"name":"uououou!"}
+{"block":{
+	"id" : "superid",
+	"class": "supaclass",
+	"text":"textest"
+}}

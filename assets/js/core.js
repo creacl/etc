@@ -7,6 +7,8 @@
 		var ready;
 
 		var _layout = $("body").attr("data-etc","layout");
+		_layout.append($("<div/>").attr("id","page"))
+
 		if(window.etc == undefined){
 			console.error("god object not exist");
 		}
@@ -67,7 +69,7 @@
 		else console.info(_prefix+" success loaded");
 
 		etc.fn.template.get({
-			elem : _layout,
+			elem : $("#page"),
 			name : "base"
 		});
 	}

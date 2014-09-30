@@ -155,20 +155,17 @@
 						return (css.match (/(^|\s)col-\d+/g) || []).join(' ');
 					});*/
 					var opt = {
+						"data" : {},
+						"elem" : null
 					};
 
 					$.extend(true,opt,params);
-console.log("-->",$(opt.elem).html())
 					// TODO: add change compliation processing by template engine
 					var template = (etc.config.template.engine == "handlebars") ?
-						Handlebars.compile(opt.elem.html()) : opt.elem;
+						Handlebars.compile($(opt.elem).html()) : opt.elem;
 
 					var data = opt.data;
-
-
-					//elem.empty().append($(template(data)));*/
-
-					console.log("bla",opt);
+					$(opt.elem).empty().append($(template(data)));
 				},
 				/**
 				 * Template get
@@ -177,31 +174,22 @@ console.log("-->",$(opt.elem).html())
 				get : function(params){
 					var opt = {
 						"name" : "",
+						"dataUrl" : "/testData.json",
 						"elem" : null
 					};
-
 					$.extend(true,opt,params);
 					// TODO: add change extension by template engine
 					var ext = ".hbs";
-					$.load(etc.config.template.path + opt.name + ext,function(){
-						console.log("--->!",this)
+					$(opt.elem).load(etc.config.template.path + opt.name + ext,function(){
 						var self = this;
-						//etc.template.set({"elem":self});
 						var reqParams = {
-							url : "/testData.json",
-							elem : self,
+							url : opt.dataUrl,
+							elem : $(opt.elem),
 							dataType : "json",
 							callback : "etc.fn.template.set"
 						}
 						etc.fn.req(reqParams);
 					});
-					/*var reqParams = {
-						url : etc.config.template.path + opt.name + ext,
-						elem : opt.elem,
-						dataType : "html",
-						callback : "etc.fn.template.set"
-					}
-					etc.fn.req(reqParams);*/
 				}
 			},
 			/**

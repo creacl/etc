@@ -17,9 +17,15 @@
 		blocks: {
 			base: $("<div/>").addClass(_prefix + "-block")
 		},
+		grid:{
+			row: $("<div/>").addClass(_prefix+"-row row"),
+			col: $("<div/>").addClass(_prefix+"-col col"),
+			container: $("<div/>").addClass(_prefix+"-container container")
+		},
 		toolbar: {
 			base: $("<div/>").addClass(_prefix + "-toolbar")
 		}
+
 	};
 	_dummy.buttons.icon = _dummy.buttons.base.clone().addClass(_prefix + "-button-icon");
 	_dummy.buttons.dropdown = _dummy.buttons.base.clone().addClass(_prefix + "-button-dropdown").append(
@@ -35,14 +41,23 @@
 
 	/**
 	 *
-	 * @type {{icons: {switch: String("fa fa-pencil")}, button: *, dropZone: {selector: string, counter: number}, config: {connector: String("php"), connectorUrl: String(""), uploadUrl: String("")}, entities: {block: *, toolbar: *}, utils: {}, fn: {req: req, callback: callback, toggleEditable: toggleEditable, setTextRange: setTextRange}}}
+	 * @type {{icons: {switch: String("pencil"), save: String("check"), cancel: String("times"), status: String("circle-o"), grid: String("th"), direction: String("angle"), editor: {bold: String("bold"), italic: String("itelic"), header: String("header"), link: String("link")}}, dropZone: {selector: string, counter: number}, config: {connector: String("php"), connectorUrl: String(""), uploadUrl: String(""), grid: {columnCount: number}, template: {path: String("/views"), engine: String("handlebars")}}, entities: {block: *, toolbar: *}, utils: {}, fn: {req: req, callback: callback, template: {set: set, get: get}, toggleEditable: toggleEditable, cancelEditing: cancelEditing, addButton: addButton, addToolbar: addToolbar, setTextRange: setTextRange, getPageMenu: getPageMenu, toggleDropdown: toggleDropdown}}}
 	 */
 	var etc = {
 		icons: {
 			"switch": "pencil",
 			"save" : "check",
 			"cancel" : "times",
-			"status":"circle-o"
+			"status":"circle-o",
+			"grid":"th-large",
+			"direction":"angle",
+			"template":"newspaper-o",
+			"editor":{
+				"bold":"bold",
+				"italic":"italic",
+				"header":"header",
+				"link":"link"
+			}
 		},
 		dropZone: {
 			selector: "." + _prefix + "-dropzone",
@@ -51,7 +66,14 @@
 		config: {
 			connector: "php",
 			connectorUrl: "",
-			uploadUrl: ""
+			uploadUrl: "",
+			grid:{
+				columnCount : 12
+			},
+			template:{
+				path:"/views/",
+				engine:"handlebars"
+			}
 		},
 		entities: {
 			block: _dummy.blocks.base.clone(),
@@ -59,13 +81,133 @@
 		},
 		utils: {},
 		fn: {
-			// Ajax request to connector
+			/**
+			 * Ajax request to connector
+			 * @param params
+			 */
 			req: function (params) {
+
+				var callback = (params.callback != undefined) ? params.callback : null;
+				delete params.callback;
+
+				var elem = (params.elem != undefined) ? params.elem : null;
+				delete params.elem;
+
+				var opt = {
+					url : etc.config.connectorUrl,
+					type : "post",
+					data : {},
+					dataType : "json",
+					beforeSend : function(){
+						// TODO: add preloader
+					},
+					error : function(xhr,status,err){
+						// TODO: add error processing
+						console.error("ajax request error:",status,err);
+					},
+					success : function(data,status,xhr){
+						console.info("ajax request success:",status);
+						var params = {
+							"data":data,
+							"elem":elem,
+							"callback":callback
+						}
+						etc.fn.callback(params);
+					},
+					complete : function(xhr,status){
+						// TODO: add complete processing
+						// TODO: add finishing preloader
+						console.log("ajax request complete:",status);
+					}
+				};
+
+				$.extend(true,opt,params);
+				$.ajax(opt);
 			},
-			// Processing server response from connector
+			/**
+			 * Processing server response from connector
+			 * @param params
+			 */
 			callback: function (params) {
+				// TODO: add callback processing
+				console.log(params, $.inArray(".",params.callback));
+				//var fn = ($.inArray())
+				var fn;
+				if(params.callback != null){
+					fn = ($.inArray(".",params.callback) >= 0) ? eval(params.callback) :
+							(etc.fn[params.callbak] != undefined) ? etc.fn[params.callbak] :
+								(window[params.callbak] != undefined) ? window[params.callbak] : null;
+				}
+				delete params.callback;
+				fn(params);
 			},
-			// Toggle editable mode for content blocks
+			/**
+			 * Template processing
+			 */
+			template: {
+				/**
+				 * Template set
+				 * @param params
+				 */
+				set : function(params){
+					/*function for remove col-* from element attribute class
+					elem.removeClass (function (index, css) {
+						return (css.match (/(^|\s)col-\d+/g) || []).join(' ');
+					});*/
+					var opt = {
+					};
+
+					$.extend(true,opt,params);
+console.log("-->",$(opt.elem).html())
+					// TODO: add change compliation processing by template engine
+					var template = (etc.config.template.engine == "handlebars") ?
+						Handlebars.compile(opt.elem.html()) : opt.elem;
+
+					var data = opt.data;
+
+
+					//elem.empty().append($(template(data)));*/
+
+					console.log("bla",opt);
+				},
+				/**
+				 * Template get
+				 * @param params
+				 */
+				get : function(params){
+					var opt = {
+						"name" : "",
+						"elem" : null
+					};
+
+					$.extend(true,opt,params);
+					// TODO: add change extension by template engine
+					var ext = ".hbs";
+					$.load(etc.config.template.path + opt.name + ext,function(){
+						console.log("--->!",this)
+						var self = this;
+						//etc.template.set({"elem":self});
+						var reqParams = {
+							url : "/testData.json",
+							elem : self,
+							dataType : "json",
+							callback : "etc.fn.template.set"
+						}
+						etc.fn.req(reqParams);
+					});
+					/*var reqParams = {
+						url : etc.config.template.path + opt.name + ext,
+						elem : opt.elem,
+						dataType : "html",
+						callback : "etc.fn.template.set"
+					}
+					etc.fn.req(reqParams);*/
+				}
+			},
+			/**
+			 * Toggle editable mode for content blocks
+			 * @param elem
+			 */
 			toggleEditable: function (elem) {
 				var container = $("[data-etc=layout]");
 				container.toggleClass(_prefix+"-ready "+_prefix+"-active");
@@ -75,19 +217,27 @@
 				elem.prop("contenteditable", (container.hasClass(_prefix + "-active")));
 
 			},
+			/**
+			 * Cancel the current changes
+			 */
 			cancelEditing: function() {
 				// TODO: add function undo changes
 				//$("body").toggleClass(_prefix+"-ready "+_prefix+"-active");
 				//$("."+_prefix+"-toolbar-global-control, ."+_prefix+"-action-switch").toggle();
 				etc.fn.toggleEditable();
 			},
-			// Add button from template and parameters
+			/**
+			 * Add button from template and parameters
+			 * @param params
+			 * @returns {*}
+			 */
 			addButton: function(params){
 				var opt = {
 					selector : "",
 					name : "",
 					cssClass: "",
 					type : "icon",
+					title : "",
 					data : null,
 					click : function(){}
 				};
@@ -123,18 +273,15 @@
 								break;
 						}
 
-						button.find("."+_prefix+"-button-dropdown-toggle").addClass(_prefixIcon+"angle-"+direction).data("redirection",reDirection);
-
-
-
-						//if(opt.data.direction != undefined) delete opt.data.direction;
-
+						button.find("."+_prefix+"-button-dropdown-toggle").addClass(_prefixIcon+etc.icons.direction+"-"+direction).data("redirection",reDirection);
 					break;
 					default:
 						//opt.type = icon
 						button = _dummy.buttons.icon.clone();
 					break;
 				}
+
+				button.attr("title",((opt.title != "") ? opt.title : opt.name));
 
 				button.on("click",opt.click);
 
@@ -150,7 +297,11 @@
 
 				if(opt.selector == "") return button;
 			},
-			// Add toolbar to block or other element
+			/**
+			 * Add toolbar to block or other element
+			 * @param params
+			 * @returns {*}
+			 */
 			addToolbar: function (params) {
 				var opt = {
 					selector: "",
@@ -191,7 +342,11 @@
 				}
 				if(opt.selector == "") return toolbar;
 			},
-			// Add tag wrapper for selected range text and/or return current selected text
+			/**
+			 * Add tag wrapper for selected range text and/or return current selected text
+			 * @param wrap
+			 * @returns {string}
+			 */
 			setTextRange: function (wrap) {
 				var range;
 				var fragment = "";
@@ -217,6 +372,11 @@
 				}
 				return fragment;
 			},
+			/**
+			 * Add tag wrapper for selected range text and/or return current selected text
+			 * @param params
+			 * @returns {string}
+			 */
 			getPageMenu : function(params){
 				// TODO: replace this dummy function to procuction
 				var opt = {};
@@ -230,6 +390,11 @@
 				});*/
 				return content;
 			},
+			/**
+			 * Toggle dropdown menu
+			 * @param elem
+			 * @returns {boolean}
+			 */
 			toggleDropdown : function(elem){
 
 				var sel = _prefix+"-button-dropdown-menu";
@@ -254,17 +419,17 @@
 				}
 				elem.toggleClass("s-open")
 					.find("."+_prefix+"-button-dropdown-toggle")
-						.toggleClass(_prefixIcon+"angle-"+direction+" "+_prefixIcon+"angle-"+reDirection);
+						.toggleClass(_prefixIcon+etc.icons.direction+"-"+direction+" "+_prefixIcon+etc.icons.direction+"-"+reDirection);
 
 				return true;
 			}
 		}
 	}
-	//etc.button.addClass(_prefixIcon+etc.icons.switch);
+
 	etc.config.uploadUrl = "/connector/php/upload.php";
 
 	/**
-	 *
+	 * Blocks resizing
 	 * @param elem
 	 * @param params
 	 * @returns {*}
@@ -282,13 +447,18 @@
 		}
 		return elem;
 	}
+	/**
+	 * Blocks positioning
+	 * @param elem
+	 * @param params
+	 */
 	etc.utils.positionBlock = function (elem, params) {
 	}
-	/**
-	 *
-	 * @type {string}
-	 * @private
-	 */
+
 	window._prefix = _prefix;
+
+	/**
+	 * Add god object to global object window
+	 */
 	window.etc = etc;
 })(window);

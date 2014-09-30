@@ -7,7 +7,9 @@
 		var ready;
 
 		var _layout = $("body").attr("data-etc","layout");
-
+		if(window.etc == undefined){
+			console.error("god object not exist");
+		}
 		var etcControl = etc.fn.addToolbar({
 			buttons : [
 				/*{
@@ -23,7 +25,9 @@
 				},
 				etc.fn.addToolbar({
 					buttons : [
-						{"name":"store",type:"dropdown",data:{"bind":"toggleDropdown","direction":"up","menuheight":100,"content":"getPageMenu"}},
+						//{"name":"store",type:"dropdown",data:{"bind":"toggleDropdown","direction":"up","menuheight":100,"content":"getPageMenu"}},
+						{"name":"template",data:{}},
+						{"name":"grid",data:{}},
 						{"name":"save",data:{}},
 						{"name":"cancel",data:{"bind":"cancelEditing"}}
 					],
@@ -60,6 +64,12 @@
 		// TODO: add error message processor
 		var message = "fatal error";
 		if(!ready) console.error("err:"+message);
+		else console.info(_prefix+" success loaded");
+
+		etc.fn.template.get({
+			elem : _layout,
+			name : "base"
+		});
 	}
 	init();
 })(window);

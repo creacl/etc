@@ -28,6 +28,8 @@
 
 	};
 	_dummy.buttons.icon = _dummy.buttons.base.clone().addClass(_prefix + "-button-icon");
+
+	_dummy.buttons.toggle = _dummy.buttons.base.clone().addClass(_prefix + "-button-toggle");
 	_dummy.buttons.dropdown = _dummy.buttons.base.clone().addClass(_prefix + "-button-dropdown").append(
 		$("<i/>").addClass(_prefix+"-button-dropdown-toggle")
 	);
@@ -44,6 +46,7 @@
 	 * @type {{icons: {switch: String("pencil"), save: String("check"), cancel: String("times"), status: String("circle-o"), grid: String("th-large"), direction: String("angle"), template: String("newspaper-o"), editor: {bold: String("bold"), italic: String("italic"), header: String("header"), link: String("link")}}, dropZone: {selector: string, counter: number}, config: {connector: String("php"), connectorUrl: String(""), uploadUrl: String(""), grid: {columnCount: number}, template: {path: String("/views/"), engine: String("handlebars")}}, entities: {block: *, toolbar: *}, utils: {}, fn: {req: req, callback: callback, grid: {set: set, get: get}, toggleEditable: toggleEditable, cancelEditing: cancelEditing, addButton: addButton, addToolbar: addToolbar, setTextRange: setTextRange, getPageMenu: getPageMenu, toggleDropdown: toggleDropdown}}}
 	 */
 	var etc = {
+		layout: $("body"),
 		icons: {
 			"switch": "pencil",
 			"save" : "check",
@@ -130,8 +133,6 @@
 			 */
 			callback: function (params) {
 				// TODO: add callback processing
-				console.log(params, $.inArray(".",params.callback));
-				//var fn = ($.inArray())
 				var fn;
 				if(params.callback != null){
 					fn = ($.inArray(".",params.callback) >= 0) ? eval(params.callback) :
@@ -150,6 +151,28 @@
 				 * @param params
 				 */
 				set : function(params){
+
+					/**
+					 * Example data response:
+					 * {
+					 *  "err" : null || {
+					 *      "code"     : (int), <- error code
+					 *      "text"     : ""     <- status textual description
+					 *  },
+					 *  "result" : [
+					 *      {
+					 *          "id"       : "",  <- id from db to be set on html attribute id
+					 *          "type"     : "",  <- type of content: text, media, header & etc.
+					 *          "container : "",  <- grid-id for placement this block
+					 *          "attr"     : {},  <- html attributes
+					 *          "data"     : {},  <- html data-* attributes
+					 *          "content   : null <- content by type of block
+					 *      },
+					 *      ...
+					 *  ]
+					 * }
+					 */
+
 					/*function for remove col-* from element attribute class
 					elem.removeClass (function (index, css) {
 						return (css.match (/(^|\s)col-\d+/g) || []).join(' ');
@@ -262,6 +285,9 @@
 						}
 
 						button.find("."+_prefix+"-button-dropdown-toggle").addClass(_prefixIcon+etc.icons.direction+"-"+direction).data("redirection",reDirection);
+					break;
+					case "toggle":
+						button = _dummy.buttons.toggle.clone();
 					break;
 					default:
 						//opt.type = icon
@@ -378,13 +404,16 @@
 				});*/
 				return content;
 			},
+			toggleButton: function(elem){
+				elem.toggleClass("s-active")
+				etc.layout.toggleClass("s-show-grid")
+			},
 			/**
 			 * Toggle dropdown menu
 			 * @param elem
 			 * @returns {boolean}
 			 */
 			toggleDropdown : function(elem){
-
 				var sel = _prefix+"-button-dropdown-menu";
 				var dropdownMenu = $("<div/>").addClass(sel);
 

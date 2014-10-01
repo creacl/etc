@@ -1,5 +1,11 @@
-{"block":{
-	"id" : "superid",
-	"class": "supaclass",
-	"text":"textest"
-}}
+{
+	"blocks": [
+		{
+			"id" : "",
+			"type" : "",
+			"attr" : {},
+			"data" : {},
+			"content" : null
+		}
+	]
+}

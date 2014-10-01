@@ -6,7 +6,9 @@
 	function init(){
 		var ready;
 
-		var _layout = $("body").attr("data-etc","layout");
+		var _layout = etc.layout;
+		_layout.attr("data-etc","layout");
+		//var _layout = $("body").attr("data-etc","layout");
 		_layout.append($("<div/>").attr("id","page"))
 
 		if(window.etc == undefined){
@@ -29,7 +31,7 @@
 					buttons : [
 						//{"name":"store",type:"dropdown",data:{"bind":"toggleDropdown","direction":"up","menuheight":100,"content":"getPageMenu"}},
 						{"name":"template",data:{}},
-						{"name":"grid",data:{}},
+						{"name":"grid",type:"toggle",data:{"bind":"toggleButton"}},
 						{"name":"save",data:{}},
 						{"name":"cancel",data:{"bind":"cancelEditing"}}
 					],
@@ -56,6 +58,7 @@
 			if(etc.fn[bind] != undefined) etc.fn[bind](self);
 			return false;
 		});
+
 		// TODO: dummy for confirm close window if editing active
 		/*
 		$(window).bind("beforeunload", function() {

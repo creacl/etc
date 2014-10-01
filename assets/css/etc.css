@@ -529,6 +529,9 @@ button,
 		text-align: center;
 	}
 }*/
+.cb {
+  padding: 40px;
+}
 .test.etc-block {
   margin-left: 40px;
   margin-top: 40px;
@@ -573,10 +576,10 @@ html.wf-active body {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-  -o-transition: all 0.5s;
-  transition: all 0.5s;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  transition: all 0.2s;
 }
 .etc-active .etc-block {
   outline-color: rgba(0, 0, 0, 0.1);
@@ -584,11 +587,26 @@ html.wf-active body {
   -moz-box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
 }
+.etc-active.s-show-grid .etc-col,
+.etc-active.s-show-grid .etc-row,
+.etc-active.s-show-grid .etc-container {
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  transition: all 0.2s;
+  outline: 1px solid rgba(10, 93, 117, 0.15);
+  background: rgba(90, 208, 241, 0.15);
+}
+.etc-active.s-show-grid .etc-col:empty,
+.etc-active.s-show-grid .etc-row:empty,
+.etc-active.s-show-grid .etc-container:empty {
+  padding: 0.5em;
+}
 .etc-toolbar {
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-  -o-transition: all 0.5s;
-  transition: all 0.5s;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  transition: all 0.2s;
 }
 .etc-toolbar-switch {
   z-index: 10000;
@@ -598,6 +616,31 @@ html.wf-active body {
 }
 .etc-button {
   font-size: 1.5em;
+}
+.etc-button-block {
+  background: #333333;
+  display: inline-block;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  margin-top: 0;
+  margin-left: 0;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+.etc-button-block:hover,
+.etc-button-block.s-open,
+.etc-button-block.s-active {
+  -webkit-box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
+  margin-top: -2px;
+  margin-left: -2px;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
 }
 .etc-button-icon,
 .etc-button-dropdown {
@@ -613,15 +656,25 @@ html.wf-active body {
   margin-top: -2px;
 }
 .etc-button-dropdown-menu {
-  -webkit-transition: all 2s;
-  -moz-transition: all 2s;
-  -o-transition: all 2s;
-  transition: all 2s;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  transition: all 0.2s;
   display: none;
   position: fixed;
   background: #dadad7;
   left: 0;
   right: 0;
+}
+.etc-button-toggle:before {
+  opacity: 0.5;
+  -webkit-transition: opacity 0.2s;
+  -moz-transition: opacity 0.2s;
+  -o-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+}
+.etc-button-toggle.s-active:before {
+  opacity: 1;
 }
 .etc-dropzone {
   position: fixed;

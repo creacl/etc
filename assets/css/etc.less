@@ -8,16 +8,17 @@
 @formDefColor:#222;
 //@formDefBackground:#f1e05a;
 @buttonDefBackground:#f1e05a;
+@gridBackground:fade(spin(@buttonDefBackground,140),15);
 @textSize:14px;
-body{
 
+body{
 }
 .defBlockActive{
 	outline-color: rgba(0,0,0,0.1);
 	.box-shadow(4px 4px 0 rgba(0,0,0,0.2));
 }
-
-.defShowFx(@variable:opacity 0.2s){
+@defFxTime:0.2s;
+.defShowFx(@variable:opacity @defFxTime){
 	.transition(@variable);
 }
 
@@ -57,10 +58,12 @@ html{
 }
 
 .@{_prefix}{
+
 	&-block{
 		outline: 1px solid rgba(255,255,255,0);
 		.box-sizing(border-box);
-		.defShowFx(all 0.5s);
+		.defShowFx(all @defFxTime);
+
 	}
 	&-active{
 		.@{_prefix}{
@@ -68,12 +71,28 @@ html{
 				.defBlockActive;
 			}
 		}
+		&.s{
+			&-show{
+				&-grid{
+					.@{_prefix}{
+						&-col,&-row,&-container{
+							.defShowFx(all @defFxTime);
+							outline:1px solid darken(@gridBackground,40);
+							background: @gridBackground;
+							&:empty{
+								padding:0.5em;
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 	&-accent{
 
 	}
 	&-toolbar{
-		.defShowFx(all 0.5s);
+		.defShowFx(all @defFxTime);
 	}
 	&-toolbar-switch{
 		z-index: 10000;
@@ -83,10 +102,24 @@ html{
 	}
 	&-button{
 		font-size:1.5em;
-		//background: ;
+		&-block{
+			@lift:2px;
+			background: @textColor;
+			display: inline-block;
+			.box-shadow(none);
+			margin-top:0;
+			margin-left:0;
+			width:14px;
+			height:14px;
+			cursor:pointer;
+			&:hover,&.s-open,&.s-active{
+				.box-shadow(@lift @lift 0 rgba(0,0,0,0.15));
+				margin-top:-@lift;
+				margin-left:-@lift;
+				.defShowFx(all 0.3s);
+			}
+		}
 		&-icon,&-dropdown{
-			//background: #f1e05a;//rgba(0,0,0,0.2);
-
 			padding: 0.2em;
 			line-height: 1em;
 			text-align: center;
@@ -100,12 +133,25 @@ html{
 				margin-top:-2px;
 			}
 			&-menu{
-				.defShowFx(all 2s);
+				.defShowFx(all @defFxTime);
 				display: none;
 				position: fixed;
 				background: @dropdownBackground;
 				left: 0;
 				right: 0;
+			}
+		}
+		&-toggle{
+			&:before{
+				opacity: 0.5;
+				.defShowFx(opacity @defFxTime);
+			}
+			&.s{
+				&-active{
+					&:before{
+						opacity: 1;
+					}
+				}
 			}
 		}
 	}
@@ -117,7 +163,6 @@ html{
 		right:0;
 		display: none;
 		text-align: center;
-
 		.defShowFx(background 1s);
 		&:before{
 			margin: 0 auto;

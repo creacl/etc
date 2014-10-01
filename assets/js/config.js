@@ -41,7 +41,7 @@
 
 	/**
 	 *
-	 * @type {{icons: {switch: String("pencil"), save: String("check"), cancel: String("times"), status: String("circle-o"), grid: String("th"), direction: String("angle"), editor: {bold: String("bold"), italic: String("itelic"), header: String("header"), link: String("link")}}, dropZone: {selector: string, counter: number}, config: {connector: String("php"), connectorUrl: String(""), uploadUrl: String(""), grid: {columnCount: number}, template: {path: String("/views"), engine: String("handlebars")}}, entities: {block: *, toolbar: *}, utils: {}, fn: {req: req, callback: callback, template: {set: set, get: get}, toggleEditable: toggleEditable, cancelEditing: cancelEditing, addButton: addButton, addToolbar: addToolbar, setTextRange: setTextRange, getPageMenu: getPageMenu, toggleDropdown: toggleDropdown}}}
+	 * @type {{icons: {switch: String("pencil"), save: String("check"), cancel: String("times"), status: String("circle-o"), grid: String("th-large"), direction: String("angle"), template: String("newspaper-o"), editor: {bold: String("bold"), italic: String("italic"), header: String("header"), link: String("link")}}, dropZone: {selector: string, counter: number}, config: {connector: String("php"), connectorUrl: String(""), uploadUrl: String(""), grid: {columnCount: number}, template: {path: String("/views/"), engine: String("handlebars")}}, entities: {block: *, toolbar: *}, utils: {}, fn: {req: req, callback: callback, grid: {set: set, get: get}, toggleEditable: toggleEditable, cancelEditing: cancelEditing, addButton: addButton, addToolbar: addToolbar, setTextRange: setTextRange, getPageMenu: getPageMenu, toggleDropdown: toggleDropdown}}}
 	 */
 	var etc = {
 		icons: {
@@ -142,11 +142,11 @@
 				fn(params);
 			},
 			/**
-			 * Template processing
+			 * Grid processing
 			 */
-			template: {
+			grid: {
 				/**
-				 * Template set
+				 * Grid set
 				 * @param params
 				 */
 				set : function(params){
@@ -168,7 +168,7 @@
 					$(opt.elem).empty().append($(template(data)));
 				},
 				/**
-				 * Template get
+				 * Grid get
 				 * @param params
 				 */
 				get : function(params){
@@ -186,7 +186,7 @@
 							url : opt.dataUrl,
 							elem : $(opt.elem),
 							dataType : "json",
-							callback : "etc.fn.template.set"
+							callback : "etc.fn.grid.set"
 						}
 						etc.fn.req(reqParams);
 					});

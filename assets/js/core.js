@@ -68,7 +68,7 @@
 		if(!ready) console.error("err:"+message);
 		else console.info(_prefix+" success loaded");
 
-		etc.fn.template.get({
+		etc.fn.grid.get({
 			elem : $("#page"),
 			name : "base"
 		});

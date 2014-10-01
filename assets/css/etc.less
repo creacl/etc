@@ -112,11 +112,25 @@ html{
 			width:14px;
 			height:14px;
 			cursor:pointer;
+			&-toolbar{
+				display: none;
+				color:#fff;
+
+			}
+			&.s-active{
+				width:auto;
+				height:auto;
+				position: absolute;
+				.@{_prefix}-button-block-toolbar{
+					display: block;
+				}
+			}
 			&:hover,&.s-open,&.s-active{
 				.box-shadow(@lift @lift 0 rgba(0,0,0,0.15));
 				margin-top:-@lift;
 				margin-left:-@lift;
 				.defShowFx(all 0.3s);
+
 			}
 		}
 		&-icon,&-dropdown{

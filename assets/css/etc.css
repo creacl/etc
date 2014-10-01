@@ -629,6 +629,18 @@ html.wf-active body {
   height: 14px;
   cursor: pointer;
 }
+.etc-button-block-toolbar {
+  display: none;
+  color: #fff;
+}
+.etc-button-block.s-active {
+  width: auto;
+  height: auto;
+  position: absolute;
+}
+.etc-button-block.s-active .etc-button-block-toolbar {
+  display: block;
+}
 .etc-button-block:hover,
 .etc-button-block.s-open,
 .etc-button-block.s-active {

@@ -58,6 +58,9 @@
 			if(etc.fn[bind] != undefined) etc.fn[bind](self);
 			return false;
 		});
+		_layout.on("click",".etc-button-block",function(){
+			$(this).toggleClass("s-active");
+		});
 
 		// TODO: dummy for confirm close window if editing active
 		/*

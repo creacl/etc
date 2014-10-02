@@ -7,8 +7,9 @@
 @_prefix:etc;
 @formDefColor:#222;
 //@formDefBackground:#f1e05a;
-@buttonDefBackground:#f1e05a;
-@gridBackground:fade(spin(@buttonDefBackground,140),15);
+@buttonDefBackground:@formDefColor;//#f1e05a;
+@buttonDefColor:#fff;
+@gridBackground:fade(desaturate(spin(@buttonDefBackground,140),65),15);
 @textSize:14px;
 
 body{
@@ -19,10 +20,8 @@ body{
 }
 @defFxTime:0.2s;
 .defShowFx(@variable:opacity @defFxTime){
-	.transition(@variable);
+	.transition(@variable linear);
 }
-
-
 
 
 //Prefix notation(frame framework)
@@ -65,6 +64,9 @@ html{
 		.defShowFx(all @defFxTime);
 
 	}
+	&-col,&-row,&-container{
+		text-align: center;
+	}
 	&-active{
 		.@{_prefix}{
 			&-block{
@@ -76,12 +78,18 @@ html{
 				&-grid{
 					.@{_prefix}{
 						&-col,&-row,&-container{
+
 							.defShowFx(all @defFxTime);
 							outline:1px solid darken(@gridBackground,40);
 							background: @gridBackground;
 							&:empty{
-								padding:0.5em;
+								padding:20px;
 							}
+						}
+					}
+					.page{
+						&-layout{
+							padding-bottom: 20px;
 						}
 					}
 				}
@@ -93,15 +101,26 @@ html{
 	}
 	&-toolbar{
 		.defShowFx(all @defFxTime);
+
 	}
-	&-toolbar-switch{
-		z-index: 10000;
-		position: fixed;
-		bottom:0;
-		right:0;
+	&-toolbar{
+
+		&-switch{
+			z-index: 10000;
+			position: fixed;
+			bottom:0;
+			right:0;
+			@buttonDefBackground:#f1e05a;
+			@gridBackground:fade(desaturate(spin(@buttonDefBackground,140),65),15);
+			.@{_prefix}-button{
+				font-size:24px;
+				background: @buttonDefBackground;
+				color:#222;
+			}
+		}
 	}
 	&-button{
-		font-size:1.5em;
+		//font-size:1.3em;
 		&-block{
 			@lift:2px;
 			background: @textColor;
@@ -109,14 +128,11 @@ html{
 			.box-shadow(none);
 			margin-top:0;
 			margin-left:0;
+			padding:0;
 			width:14px;
 			height:14px;
 			cursor:pointer;
-			&-toolbar{
-				display: none;
-				color:#fff;
 
-			}
 			&.s-active{
 				width:auto;
 				height:auto;
@@ -130,11 +146,15 @@ html{
 				margin-top:-@lift;
 				margin-left:-@lift;
 				.defShowFx(all 0.3s);
-
+			}
+			&.s-active{
+				overflow-y: hidden;
 			}
 		}
-		&-icon,&-dropdown{
-			padding: 0.2em;
+		&-icon,&-dropdown,&-toggle{
+
+			font-size:14px;
+			padding: 0.2em 0.3em;
 			line-height: 1em;
 			text-align: center;
 		}

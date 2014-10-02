@@ -12,7 +12,8 @@
 	 */
 	var _dummy = {
 		buttons: {
-			base: $("<button/>").addClass(_prefix + "-button")
+			base: $("<button/>").addClass(_prefix + "-button"),
+			block: $("<div/>").addClass(_prefix+"-button-block")
 		},
 		blocks: {
 			base: $("<div/>").addClass(_prefix + "-block")
@@ -55,6 +56,7 @@
 			"grid":"th-large",
 			"direction":"angle",
 			"template":"newspaper-o",
+			"plus" : "plus",
 			"editor":{
 				"bold":"bold",
 				"italic":"italic",
@@ -188,7 +190,25 @@
 						Handlebars.compile($(opt.elem).html()) : opt.elem;
 
 					var data = opt.data;
-					$(opt.elem).empty().append($(template(data)));
+					var grid = $("<i>").append($(template(data)));
+
+
+					// TODO: move to single function
+					$.each($(grid).find(".container,.row,.col"),function(){
+						var self = $(this);
+						if(self.hasClass("container")) self.addClass(_prefix+"-container");
+						if(self.hasClass("row")) self.addClass(_prefix+"-row");
+						if(self.hasClass("col")) self.addClass(_prefix+"-col");
+
+						var control = etc.fn.addButton({"name":"block","type":"block"})
+
+						self.append(control);
+					});
+
+
+					$(opt.elem).empty().append(grid.children());
+
+
 				},
 				/**
 				 * Grid get
@@ -213,6 +233,50 @@
 						}
 						etc.fn.req(reqParams);
 					});
+				},
+				toggle : function(){
+					etc.layout.toggleClass("s-show-grid");
+
+				},
+				/**
+				 * modifiy grid structure
+				 */
+				modify : {
+					/**
+					 * add element to grid structure
+					 * @param elem
+					 */
+					add : function(elem){
+
+					},
+					/**
+					 * remove element from grid structure
+					 * @param elem
+					 */
+					remove : function(elem){
+
+					}
+				},
+				/**
+				 * for grid controls
+				 */
+				control : {
+					/**
+					 * add grid control to grid element
+					 * @param elem
+					 */
+					add : function(elem){
+						console.log("add control")
+
+
+					},
+					/**
+					 * remove grid control from grid elemnt
+					 * @param elem
+					 */
+					remove : function(elem){
+
+					}
 				}
 			},
 			/**
@@ -260,6 +324,7 @@
 					_dummy.buttons.base.clone();
 
 				var button;
+
 				switch(opt.type){
 					case "text":
 						button = _dummy.buttons.base.clone();
@@ -288,12 +353,19 @@
 					break;
 					case "toggle":
 						button = _dummy.buttons.toggle.clone();
+						button.attr("data-"+_prefix,opt.type);
+					break;
+					case "block":
+						console.log(55)
+						button = _dummy.buttons.block.clone();
+						button.attr("data-"+_prefix,opt.type);
 					break;
 					default:
 						//opt.type = icon
 						button = _dummy.buttons.icon.clone();
 					break;
 				}
+				if(button.attr("data-"+_prefix) == undefined) button.attr("data-"+_prefix,"button");
 
 				button.attr("title",((opt.title != "") ? opt.title : opt.name));
 
@@ -305,8 +377,18 @@
 					button.addClass(_prefixIcon+etc.icons[opt.name]+" "+_prefix+"-action-"+opt.name);
 
 				}
+
+				// TODO: separate by types
 				if(opt.data != null && typeof opt.data == "object")
-					button.data(opt.data).attr("data-etc","button");
+					button.data(opt.data);
+				/*if(opt.type != "toggle"){
+					button.attr("data-"+_prefix,"button");
+				}else if(opt.type == "block"){
+					button.attr("data-"+_prefix,opt.type);
+				}else{
+					button.attr("data-"+_prefix,opt.type);
+				}*/
+
 
 
 				if(opt.selector == "") return button;
@@ -404,9 +486,41 @@
 				});*/
 				return content;
 			},
-			toggleButton: function(elem){
-				elem.toggleClass("s-active")
-				etc.layout.toggleClass("s-show-grid")
+			/**
+			 *
+			 * @param elem
+			 * @param bind
+			 */
+			toggleButton: function(elem,bind){
+				elem.toggleClass("s-active");
+				var fn;
+				fn = ($.inArray(".",bind) >= 0) ? eval(bind) :
+					(etc.fn[bind] != undefined) ? etc.fn[bind] :
+						(window[bind] != undefined) ? window[bind] : null;
+
+				if(fn != null) fn(elem);
+
+			},
+			/**
+			 *
+			 * @param elem
+			 * @param bind
+			 */
+			blockButton : function(elem,bind){
+				elem.toggleClass("s-active");
+				var fn;
+				fn = ($.inArray(".",bind) >= 0) ? eval(bind) :
+					(etc.fn[bind] != undefined) ? etc.fn[bind] :
+						(window[bind] != undefined) ? window[bind] : null;
+
+				if(fn != null) fn(elem);
+				var controls = {
+					direction : "h",
+					buttons : [
+						{"name":"plus",data:{}}
+					]
+				};
+				$(elem).append(etc.fn.addToolbar(controls));
 			},
 			/**
 			 * Toggle dropdown menu

@@ -8,11 +8,16 @@ input, select, textarea, button {
 		.formInputHover();
 	}
 }
+
 button{
-	color: @formDefColor;
+	color: @buttonDefColor;
 	background: @buttonDefBackground;
+
 	&:active{
 		.formInputActive();
+	}
+	&:hover,&:focus {
+		.formButtonHover();
 	}
 }
 

@@ -9,7 +9,7 @@
 		var _layout = etc.layout;
 		_layout.attr("data-etc","layout");
 		//var _layout = $("body").attr("data-etc","layout");
-		_layout.append($("<div/>").attr("id","page"))
+		_layout.prepend($("<div/>").attr("id","page").addClass("page-layout"));
 
 		if(window.etc == undefined){
 			console.error("god object not exist");
@@ -31,7 +31,7 @@
 					buttons : [
 						//{"name":"store",type:"dropdown",data:{"bind":"toggleDropdown","direction":"up","menuheight":100,"content":"getPageMenu"}},
 						{"name":"template",data:{}},
-						{"name":"grid",type:"toggle",data:{"bind":"toggleButton"}},
+						{"name":"grid",type:"toggle",data:{"bind":"etc.fn.grid.toggle"}},
 						{"name":"save",data:{}},
 						{"name":"cancel",data:{"bind":"cancelEditing"}}
 					],
@@ -51,16 +51,34 @@
 		ready = true;
 		_layout.addClass(_prefix+"-"+((ready)? "ready" : "err"));
 
-
+		// TODO: separate listeners by types and merge similar
 		_layout.on("click","[data-etc=button]",function(){
 			var self = $(this);
 			var bind = self.data("bind");
 			if(etc.fn[bind] != undefined) etc.fn[bind](self);
 			return false;
+		}).on("click","[data-etc=toggle]",function(){
+			var self = $(this);
+			var bind = self.data("bind");
+			etc.fn.toggleButton(self,bind);
+		}).on("click","[data-etc=block]",function(){
+			var self = $(this);
+			var bind = self.data("bind");
+			etc.fn.blockButton(self,bind);
 		});
-		_layout.on("click",".etc-button-block",function(){
-			$(this).toggleClass("s-active");
+
+
+
+		_layout.on("mouseenter mouseleave",".etc-container",function(e){
+			switch (e.type){
+				case "mouseenter":
+					break;
+				case "mouseleave":
+					break;
+			}
 		});
+
+
 
 		// TODO: dummy for confirm close window if editing active
 		/*

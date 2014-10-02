@@ -182,6 +182,10 @@ body {
   color: #080808;
   border-color: #b3b3b3;
 }
+.formButtonHover {
+  color: #ffffff;
+  border-color: #b3b3b3;
+}
 ::selection {
   background: #ff0;
   color: #333333;
@@ -269,11 +273,16 @@ button:hover {
   border-color: #b3b3b3;
 }
 button {
-  color: #222222;
-  background: #f1e05a;
+  color: #ffffff;
+  background: #222222;
 }
 button:active {
   color: #080808;
+  border-color: #b3b3b3;
+}
+button:hover,
+button:focus {
+  color: #ffffff;
   border-color: #b3b3b3;
 }
 input,
@@ -563,10 +572,10 @@ body {
 }
 html body {
   opacity: 0;
-  -webkit-transition: opacity 0.2s;
-  -moz-transition: opacity 0.2s;
-  -o-transition: opacity 0.2s;
-  transition: opacity 0.2s;
+  -webkit-transition: opacity 0.2s, linear;
+  -moz-transition: opacity 0.2s, linear;
+  -o-transition: opacity 0.2s, linear;
+  transition: opacity 0.2s, linear;
 }
 html.wf-active body {
   opacity: 1;
@@ -576,10 +585,15 @@ html.wf-active body {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  -webkit-transition: all 0.2s;
-  -moz-transition: all 0.2s;
-  -o-transition: all 0.2s;
-  transition: all 0.2s;
+  -webkit-transition: all 0.2s, linear;
+  -moz-transition: all 0.2s, linear;
+  -o-transition: all 0.2s, linear;
+  transition: all 0.2s, linear;
+}
+.etc-col,
+.etc-row,
+.etc-container {
+  text-align: center;
 }
 .etc-active .etc-block {
   outline-color: rgba(0, 0, 0, 0.1);
@@ -590,23 +604,26 @@ html.wf-active body {
 .etc-active.s-show-grid .etc-col,
 .etc-active.s-show-grid .etc-row,
 .etc-active.s-show-grid .etc-container {
-  -webkit-transition: all 0.2s;
-  -moz-transition: all 0.2s;
-  -o-transition: all 0.2s;
-  transition: all 0.2s;
-  outline: 1px solid rgba(10, 93, 117, 0.15);
-  background: rgba(90, 208, 241, 0.15);
+  -webkit-transition: all 0.2s, linear;
+  -moz-transition: all 0.2s, linear;
+  -o-transition: all 0.2s, linear;
+  transition: all 0.2s, linear;
+  outline: 1px solid rgba(0, 0, 0, 0.15);
+  background: rgba(34, 34, 34, 0.15);
 }
 .etc-active.s-show-grid .etc-col:empty,
 .etc-active.s-show-grid .etc-row:empty,
 .etc-active.s-show-grid .etc-container:empty {
-  padding: 0.5em;
+  padding: 20px;
+}
+.etc-active.s-show-grid .page-layout {
+  padding-bottom: 20px;
 }
 .etc-toolbar {
-  -webkit-transition: all 0.2s;
-  -moz-transition: all 0.2s;
-  -o-transition: all 0.2s;
-  transition: all 0.2s;
+  -webkit-transition: all 0.2s, linear;
+  -moz-transition: all 0.2s, linear;
+  -o-transition: all 0.2s, linear;
+  transition: all 0.2s, linear;
 }
 .etc-toolbar-switch {
   z-index: 10000;
@@ -614,8 +631,10 @@ html.wf-active body {
   bottom: 0;
   right: 0;
 }
-.etc-button {
-  font-size: 1.5em;
+.etc-toolbar-switch .etc-button {
+  font-size: 24px;
+  background: #f1e05a;
+  color: #222;
 }
 .etc-button-block {
   background: #333333;
@@ -625,13 +644,10 @@ html.wf-active body {
   box-shadow: none;
   margin-top: 0;
   margin-left: 0;
+  padding: 0;
   width: 14px;
   height: 14px;
   cursor: pointer;
-}
-.etc-button-block-toolbar {
-  display: none;
-  color: #fff;
 }
 .etc-button-block.s-active {
   width: auto;
@@ -649,41 +665,46 @@ html.wf-active body {
   box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
   margin-top: -2px;
   margin-left: -2px;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  transition: all 0.3s;
+  -webkit-transition: all 0.3s, linear;
+  -moz-transition: all 0.3s, linear;
+  -o-transition: all 0.3s, linear;
+  transition: all 0.3s, linear;
+}
+.etc-button-block.s-active {
+  overflow-y: hidden;
 }
 .etc-button-icon,
-.etc-button-dropdown {
-  padding: 0.2em;
+.etc-button-dropdown,
+.etc-button-toggle {
+  font-size: 14px;
+  padding: 0.2em 0.3em;
   line-height: 1em;
   text-align: center;
 }
 .etc-button-dropdown {
-  background: #dadad7;
+  background: #555555;
 }
 .etc-button-dropdown-toggle {
   margin-left: 4px;
   margin-top: -2px;
 }
 .etc-button-dropdown-menu {
-  -webkit-transition: all 0.2s;
-  -moz-transition: all 0.2s;
-  -o-transition: all 0.2s;
-  transition: all 0.2s;
+  -webkit-transition: all 0.2s, linear;
+  -moz-transition: all 0.2s, linear;
+  -o-transition: all 0.2s, linear;
+  transition: all 0.2s, linear;
   display: none;
   position: fixed;
-  background: #dadad7;
+  background: #555555;
   left: 0;
   right: 0;
 }
 .etc-button-toggle:before {
   opacity: 0.5;
-  -webkit-transition: opacity 0.2s;
-  -moz-transition: opacity 0.2s;
-  -o-transition: opacity 0.2s;
-  transition: opacity 0.2s;
+  -webkit-transition: opacity 0.2s, linear;
+  -moz-transition: opacity 0.2s, linear;
+  -o-transition: opacity 0.2s, linear;
+  transition: opacity 0.2s, linear;
 }
 .etc-button-toggle.s-active:before {
   opacity: 1;
@@ -696,10 +717,10 @@ html.wf-active body {
   right: 0;
   display: none;
   text-align: center;
-  -webkit-transition: background 1s;
-  -moz-transition: background 1s;
-  -o-transition: background 1s;
-  transition: background 1s;
+  -webkit-transition: background 1s, linear;
+  -moz-transition: background 1s, linear;
+  -o-transition: background 1s, linear;
+  transition: background 1s, linear;
 }
 .etc-dropzone:before {
   margin: 0 auto;

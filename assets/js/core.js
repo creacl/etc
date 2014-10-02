@@ -21,15 +21,15 @@
 				},*/
 				{
 					"name":"switch",
-					"click":function(){
+					/*"click":function(){
 						etc.fn.toggleEditable();
 						return false;
-					},
-					data:{}
+					},*/
+					data:{"bind":"toggleEditable"}
 				},
 				etc.fn.addToolbar({
 					buttons : [
-						//{"name":"store",type:"dropdown",data:{"bind":"toggleDropdown","direction":"up","menuheight":100,"content":"getPageMenu"}},
+						{"name":"store",type:"dropdown",data:{"bind":"toggleDropdown","direction":"up","menuheight":100,"content":"getPageMenu"}},
 						{"name":"template",data:{}},
 						{"name":"grid",type:"toggle",data:{"bind":"etc.fn.grid.toggle"}},
 						{"name":"save",data:{}},
@@ -52,7 +52,13 @@
 		_layout.addClass(_prefix+"-"+((ready)? "ready" : "err"));
 
 		// TODO: separate listeners by types and merge similar
-		_layout.on("click","[data-etc=button]",function(){
+		_layout.on("click","[data-etc=button],[data-etc=toggle],[data-etc=block],[data-etc=dropdown]",function(){
+			var self = $(this);
+			var type = self.data(_prefix);
+			var bind = (self.data("bind") != undefined) ? self.data("bind") : null;
+			etc.fn.button[type](self,bind);
+		});
+		/*_layout.on("click","[data-etc=button]",function(){
 			var self = $(this);
 			var bind = self.data("bind");
 			if(etc.fn[bind] != undefined) etc.fn[bind](self);
@@ -65,7 +71,7 @@
 			var self = $(this);
 			var bind = self.data("bind");
 			etc.fn.blockButton(self,bind);
-		});
+		});*/
 
 
 

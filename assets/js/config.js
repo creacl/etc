@@ -302,6 +302,81 @@
 				etc.fn.toggleEditable();
 			},
 			/**
+			 * Function wrappers for interface elements
+			 */
+			"interface" : {
+				"button" : function(params){
+					return etc.fn.addButton(params);
+				},
+				"toolbar" : function(params){
+					return etc.fn.addToolbar(params)
+				}
+			},
+			/**
+			 * Function wrapper for events button by type
+			 */
+			"button" : {
+				"_fn" : function(bind){
+					var fn;
+					fn = ($.inArray(".",bind) >= 0) ? eval(bind) :
+						(etc.fn[bind] != undefined) ? etc.fn[bind] :
+							(window[bind] != undefined) ? window[bind] : null;
+
+					return fn;
+				},
+				"button" : function(elem,bind){
+					console.info("button-button")
+					var fn = this._fn(bind);
+					if(fn != null) fn(elem);
+				},
+				"dropdown" : function(elem,bind){
+					console.info("button-dropdown")
+					var sel = _prefix+"-button-dropdown-menu";
+					var dropdownMenu = $("<div/>").addClass(sel);
+
+					var reDirection = elem.find("."+_prefix+"-button-dropdown-toggle").data("redirection");
+					var direction = elem.data("direction");
+					if(!elem.hasClass("s-open")) {
+						var menuHeight = (elem.data("menuheight")) ? elem.data("menuheight") : 40;
+						var elemHeight = elem.outerHeight(true);
+						if (direction == "up") dropdownMenu.css({
+							"margin-top": -(menuHeight + elemHeight) + "px",
+							height: menuHeight
+						});
+						if (elem.next("." + sel).length > 0) elem.next("." + sel).remove();
+
+						var content = (elem.data("content") != undefined && etc.fn[elem.data("content")]) ? etc.fn[elem.data("content")] : "";
+						dropdownMenu.append(content);
+						dropdownMenu.insertAfter(elem).show();
+					}else{
+						elem.next("." + sel).remove();
+					}
+					elem.toggleClass("s-open")
+						.find("."+_prefix+"-button-dropdown-toggle")
+						.toggleClass(_prefixIcon+etc.icons.direction+"-"+direction+" "+_prefixIcon+etc.icons.direction+"-"+reDirection);
+				},
+				"toggle" : function(elem,bind){
+					console.info("button-toggle")
+					elem.toggleClass("s-active");
+					var fn = this._fn(bind);
+					if(fn != null) fn(elem);
+
+				},
+				"block" : function(elem,bind){
+					console.info("button-block")
+					elem.toggleClass("s-active");
+					var fn = this._fn(bind);
+					if(fn != null) fn(elem);
+					var controls = {
+						direction : "h",
+						buttons : [
+							{"name":"plus",data:{}}
+						]
+					};
+					$(elem).append(etc.fn.addToolbar(controls));
+				},
+			},
+			/**
 			 * Add button from template and parameters
 			 * @param params
 			 * @returns {*}
@@ -350,6 +425,8 @@
 						}
 
 						button.find("."+_prefix+"-button-dropdown-toggle").addClass(_prefixIcon+etc.icons.direction+"-"+direction).data("redirection",reDirection);
+
+						button.attr("data-"+_prefix,opt.type);
 					break;
 					case "toggle":
 						button = _dummy.buttons.toggle.clone();
@@ -492,14 +569,14 @@
 			 * @param bind
 			 */
 			toggleButton: function(elem,bind){
-				elem.toggleClass("s-active");
+				/*elem.toggleClass("s-active");
 				var fn;
 				fn = ($.inArray(".",bind) >= 0) ? eval(bind) :
 					(etc.fn[bind] != undefined) ? etc.fn[bind] :
 						(window[bind] != undefined) ? window[bind] : null;
 
 				if(fn != null) fn(elem);
-
+*/
 			},
 			/**
 			 *
@@ -507,7 +584,7 @@
 			 * @param bind
 			 */
 			blockButton : function(elem,bind){
-				elem.toggleClass("s-active");
+				/*elem.toggleClass("s-active");
 				var fn;
 				fn = ($.inArray(".",bind) >= 0) ? eval(bind) :
 					(etc.fn[bind] != undefined) ? etc.fn[bind] :
@@ -520,7 +597,7 @@
 						{"name":"plus",data:{}}
 					]
 				};
-				$(elem).append(etc.fn.addToolbar(controls));
+				$(elem).append(etc.fn.addToolbar(controls));*/
 			},
 			/**
 			 * Toggle dropdown menu
@@ -528,29 +605,7 @@
 			 * @returns {boolean}
 			 */
 			toggleDropdown : function(elem){
-				var sel = _prefix+"-button-dropdown-menu";
-				var dropdownMenu = $("<div/>").addClass(sel);
 
-				var reDirection = elem.find("."+_prefix+"-button-dropdown-toggle").data("redirection");
-				var direction = elem.data("direction");
-				if(!elem.hasClass("s-open")) {
-					var menuHeight = (elem.data("menuheight")) ? elem.data("menuheight") : 40;
-					var elemHeight = elem.outerHeight(true);
-					if (direction == "up") dropdownMenu.css({
-						"margin-top": -(menuHeight + elemHeight) + "px",
-						height: menuHeight
-					});
-					if (elem.next("." + sel).length > 0) elem.next("." + sel).remove();
-
-					var content = (elem.data("content") != undefined && etc.fn[elem.data("content")]) ? etc.fn[elem.data("content")] : "";
-					dropdownMenu.append(content);
-					dropdownMenu.insertAfter(elem).show();
-				}else{
-					elem.next("." + sel).remove();
-				}
-				elem.toggleClass("s-open")
-					.find("."+_prefix+"-button-dropdown-toggle")
-						.toggleClass(_prefixIcon+etc.icons.direction+"-"+direction+" "+_prefixIcon+etc.icons.direction+"-"+reDirection);
 
 				return true;
 			}

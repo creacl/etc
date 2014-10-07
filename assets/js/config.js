@@ -289,7 +289,7 @@
 
 						var resize = etc.fn.grid.modify.testRowSize(container);
 						if (resize) {
-							container.find(" > ." + _prefix + "-button-block").show();
+							container.find(" > ." + _prefix + "-button-block").removeAttr("style");
 						}
 					},
 					columnResize: function (elem) {

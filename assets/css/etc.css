@@ -208,7 +208,7 @@ h6 {
   margin-bottom: 3.5px;
 }
 h6 {
-  font-size: 166.66666667%;
+  font-size: 166.66666666666669%;
 }
 h5 {
   font-size: 180%;
@@ -217,7 +217,7 @@ h4 {
   font-size: 200%;
 }
 h3 {
-  font-size: 233.33333333%;
+  font-size: 233.33333333333334%;
 }
 h2 {
   font-size: 300%;
@@ -432,37 +432,37 @@ button,
   width: 100%;
 }
 .col-11 {
-  width: 91.66666667%;
+  width: 91.66666666666669%;
 }
 .col-10 {
-  width: 83.33333333%;
+  width: 83.33333333333334%;
 }
 .col-9 {
   width: 75%;
 }
 .col-8 {
-  width: 66.66666667%;
+  width: 66.66666666666667%;
 }
 .col-7 {
-  width: 58.33333333%;
+  width: 58.33333333333334%;
 }
 .col-6 {
   width: 50%;
 }
 .col-5 {
-  width: 41.66666667%;
+  width: 41.66666666666667%;
 }
 .col-4 {
-  width: 33.33333333%;
+  width: 33.333333333333336%;
 }
 .col-3 {
   width: 25%;
 }
 .col-2 {
-  width: 16.66666667%;
+  width: 16.666666666666668%;
 }
 .col-1 {
-  width: 8.33333333%;
+  width: 8.333333333333334%;
 }
 @media only screen and (min-width: 1201px) {
   .v-xlarge-hidden {
@@ -555,6 +555,7 @@ button,
   height: 300px;
 }
 body {
+  font-size: 100%;
   background: #eee;
 }
 body.s-lorem {
@@ -626,20 +627,36 @@ html.wf-active body {
   -moz-box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
 }
+.etc-active.s-show-grid .etc-button-block {
+  display: inline-block;
+}
 .etc-active.s-show-grid .etc-col,
 .etc-active.s-show-grid .etc-row,
 .etc-active.s-show-grid .etc-container {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   border-color: rgba(0, 0, 0, 0.2);
   border-style: dashed;
-  -webkit-transition: all 0.2s, linear;
-  -moz-transition: all 0.2s, linear;
-  -o-transition: all 0.2s, linear;
-  transition: all 0.2s, linear;
 }
 .etc-active.s-show-grid .etc-col:empty,
 .etc-active.s-show-grid .etc-row:empty,
 .etc-active.s-show-grid .etc-container:empty {
   padding: 20px;
+}
+.etc-active.s-show-grid .etc-col.s-toremove,
+.etc-active.s-show-grid .etc-row.s-toremove,
+.etc-active.s-show-grid .etc-container.s-toremove {
+  background-color: none;
+  -webkit-background-size: 5px 3px;
+  -moz-background-size: 5px 3px;
+  background-size: 5px 3px;
+  background-image: 8121991;
+  background-image: -webkit-linear-gradient(46deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) 75%, transparent 75%, transparent);
+  background-image: -moz-linear-gradient(46deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(46deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(44deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) 75%, transparent 75%, transparent);
 }
 .etc-active.s-show-grid .etc-row {
   border-bottom-width: 1px;
@@ -648,6 +665,7 @@ html.wf-active body {
   border-right-width: 1px;
   /*min-height: 30px;
 							line-height: 30px;*/
+  min-height: 30px;
 }
 .etc-active.s-show-grid .etc-col:last-child {
   border-right-width: none;
@@ -684,9 +702,9 @@ html.wf-active body {
   background: #dadad7;
 }
 .etc-button-block {
+  display: none;
   position: relative;
   background: #404040;
-  display: inline-block;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
@@ -695,7 +713,7 @@ html.wf-active body {
   margin: 5px;
   margin-bottom: 5px -1;
   padding: 0;
-  width: 19px;
+  width: 20px;
   height: 19px;
   cursor: pointer;
   -webkit-transition: all 0.3s, linear;
@@ -754,6 +772,15 @@ html.wf-active body {
 }
 .etc-button-toggle.s-active:before {
   opacity: 1;
+}
+.etc-button-icon.etc-action-resize {
+  position: relative;
+  background: none;
+  color: #333333;
+  float: right;
+  margin-top: 7px;
+  padding: 1px 4px;
+  margin-right: -8px;
 }
 .etc-dropzone {
   position: fixed;

@@ -16,6 +16,7 @@
 @textSize: 14px;
 
 body {
+	font-size:100%;
 	background: #eee;
 	&.s{
 		&-lorem{
@@ -71,6 +72,9 @@ html {
 		}
 	}
 }
+body{
+
+}
 
 .@{_prefix} {
 	&-block {
@@ -95,16 +99,31 @@ html {
 			&-show {
 				&-grid {
 					.@{_prefix} {
+						&-button{
+							&-block{
+								display: inline-block;
+							}
+						}
 						&-col, &-row, &-container {
+							.user-select(none);
 							border-color:rgba(0,0,0,0.2);
 							border-style:dashed;
-							//outline-color: rgba(0,0,0,0.2);
-							//outline-style: dashed;
-							.defShowFx(all @defFxTime);
-							//outline: 1px solid darken(@gridBackground, 40);
-							//background: @gridBackground;
 							&:empty {
 								padding: 20px;
+							}
+							&.s{
+								&-toremove{
+									background-color: none;
+									.background-size(5px 3px);
+									@stripeColor:rgba(0,0,0,0.1);
+									.background-image(linear-gradient(44deg,
+									@stripeColor 25%,
+									transparent 25%,
+									transparent 50%,
+									@stripeColor 50%,
+									@stripeColor 75%,
+									transparent 75%, transparent));
+								}
 							}
 						}
 						&-container{
@@ -117,9 +136,12 @@ html {
 							border-right-width: 1px;
 							/*min-height: 30px;
 							line-height: 30px;*/
+							min-height: 30px;
+
 							&:last-child{
 								border-right-width: none;
 							}
+
 							&:empty{
 								padding:15px;
 							}
@@ -176,12 +198,13 @@ html {
 	&-button {
 		//font-size:1.3em;
 		&-block {
+			display: none;
 			//position: absolute;
 			position: relative;
 			@defMargin: 5px;
 			@lift: 2px;
 			background: lighten(@textColor, 5);
-			display: inline-block;
+
 			.box-shadow(none);
 			margin-top: 0;
 			margin-left: 0;
@@ -189,7 +212,7 @@ html {
 			margin: @defMargin; //5px;
 			margin-bottom: @defMargin -1;
 			padding: 0;
-			width: 19px;
+			width: 20px;
 			height: 19px;
 			cursor: pointer;
 			.defShowFx(all 0.3s);
@@ -221,6 +244,7 @@ html {
 
 			line-height: 1em;
 			text-align: center;
+
 		}
 		&-dropdown {
 			//@dropdownBackground:lighten(desaturate(@buttonDefBackground,80),20);
@@ -248,6 +272,21 @@ html {
 				&-active {
 					&:before {
 						opacity: 1;
+					}
+				}
+			}
+		}
+		&-icon{
+			&.@{_prefix}{
+				&-action{
+					&-resize{
+						position: relative;
+						background: none;
+						color:@textColor;
+						float:right;
+						margin-top:7px;
+						padding:1px 4px;
+						margin-right:-8px;
 					}
 				}
 			}

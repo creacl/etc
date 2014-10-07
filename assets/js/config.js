@@ -20,7 +20,7 @@
 		},
 		grid: {
 			row: $("<div/>").addClass(_prefix + "-row row"),
-			col: $("<div/>").addClass(_prefix + "-col col"),
+			col: $("<div/>").addClass(_prefix + "-col col").attr("data-cid",""),
 			container: $("<div/>").addClass(_prefix + "-container container")
 		},
 		toolbar: {
@@ -36,11 +36,7 @@
 	);
 	_dummy.blocks.text = _dummy.blocks.base.clone().data({"editor": "text"});
 
-	/*var _buttons = {
-	 "save" : _dummy.buttons.base.clone(),
-	 "cancel" : _dummy.buttons.base.clone(),
-	 "help" : _dummy.buttons.base.clone()
-	 };*/
+	_dummy.buttons.resize = _dummy.buttons.icon.clone();
 
 	/**
 	 *
@@ -55,9 +51,10 @@
 			"status": "circle-o",
 			"grid": "th-large",
 			"direction": "angle",
+			"resize": "caret",
 			"template": "newspaper-o",
 			"plus": "plus",
-			"lorem":"align-left",
+			"lorem": "align-left",
 			"editor": {
 				"bold": "bold",
 				"italic": "italic",
@@ -135,15 +132,19 @@
 			 * @param params
 			 */
 			callback: function (params) {
-				// TODO: add callback processing
+				var opt = {
+					"callback" : null
+				};
+				$.extend(true,opt,params);
+
 				var fn;
-				if (params.callback != null) {
-					fn = ($.inArray(".", params.callback) >= 0) ? eval(params.callback) :
-						(etc.fn[params.callbak] != undefined) ? etc.fn[params.callbak] :
-							(window[params.callbak] != undefined) ? window[params.callbak] : null;
+				if (opt.callback != null) {
+					fn = ($.inArray(".", opt.callback) >= 0) ? eval(opt.callback) :
+						(etc.fn[opt.callback] != undefined) ? etc.fn[opt.callback] :
+							(window[opt.callback] != undefined) ? window[opt.callback] : null;
 				}
-				delete params.callback;
-				fn(params);
+				delete opt.callback;
+				fn(opt);
 			},
 			/**
 			 * Grid processing
@@ -245,35 +246,85 @@
 					 * @param elem
 					 */
 					add: function (elem) {
+
 						var container = $(elem).closest(".container,.row,.col").eq(0);
 
 						var buttonBlock = $(elem).closest("." + _prefix + "-button-block");
-
 
 						var block;
 						var act = "";
 						if (container.hasClass("container")) {
 							block = _dummy.grid.row.clone();
-							act = "prepend";
+							act = "append";
 						}
 						var num = 1;
 						if (container.hasClass("row")) {
 							block = _dummy.grid.col.clone();
-							block.addClass("col-"+num);
+							block.addClass("col-" + num).attr({"data-size": num});
 							act = "append";
 
 						}
 						if (!block.hasClass("col")) etc.fn.grid.control.add(block);
 						container[act](block.fadeIn(300));
-						console.log(buttonBlock)
 						buttonBlock.removeClass("s-active").empty();
+
+						var resize = etc.fn.grid.modify.testRowSize(container);
+						if (!resize) {
+							container.find(" > ." + _prefix + "-button-block").hide();
+						}
 					},
 					/**
 					 * remove element from grid structure
 					 * @param elem
 					 */
 					remove: function (elem) {
+						var container = null;
 
+						if (elem.parent().hasClass("row")) {
+							container = elem.parent();
+						}
+						elem.remove();
+
+						if (container == null) return false;
+
+						var resize = etc.fn.grid.modify.testRowSize(container);
+						if (resize) {
+							container.find(" > ." + _prefix + "-button-block").show();
+						}
+					},
+					columnResize: function (elem) {
+						console.log("columnresize")
+						var container = elem.closest(".col");
+						var size = container.data("size");
+						container.removeClass(function (index, css) {
+							return (css.match(/(^|\s)col-\d+/g) || []).join(' ');
+						});
+						size += 1;
+						container.data("size", size).addClass("col-" + size);
+
+						var resize = etc.fn.grid.modify.testRowSize(container);
+
+						if (!resize) {
+							elem.remove();
+							container.closest(".row").find(" > ." + _prefix + "-button-block").hide();
+						}
+					},
+					testRowSize: function (elem) {
+						var container = (elem.hasClass("row")) ? elem : elem.closest(".row");
+						var columnCount = etc.config.grid.columnCount;
+						var columnRow = container.find("> .col");
+						var count = columnRow.length;
+						var resize = false;
+
+						var sizeRow = 0;
+						if (columnCount > count) {
+							$.each(columnRow, function () {
+								var item = $(this);
+								sizeRow += item.data("size");
+							});
+							if (columnCount > sizeRow) resize = true;
+						}
+						return resize;
 					}
 				},
 				/**
@@ -302,7 +353,7 @@
 
 					}
 				},
-				lorem: function(elem){
+				lorem: function (elem) {
 					etc.layout.toggleClass("s-lorem")
 				}
 			},
@@ -428,8 +479,9 @@
 					_dummy.buttons.icon.clone() :
 					_dummy.buttons.base.clone();
 
-				var button;
+				//var button;
 
+				var direction;
 				switch (opt.type) {
 					case "text":
 						button = _dummy.buttons.base.clone();
@@ -437,7 +489,7 @@
 					case "dropdown":
 						button = _dummy.buttons.dropdown;
 						button.addClass(_prefixIcon + "bars");
-						var direction = (opt.data.direction != undefined) ? opt.data.direction : "down";
+						direction = (opt.data.direction != undefined) ? opt.data.direction : "down";
 						var reDirection = "";
 						switch (direction) {
 							case "down":
@@ -463,9 +515,14 @@
 						button.attr("data-" + _prefix, opt.type);
 						break;
 					case "block":
-						console.log(55)
+
 						button = _dummy.buttons.block.clone();
 						button.attr("data-" + _prefix, opt.type);
+						break;
+					case "resize":
+						direction = (opt.data.direction != undefined) ? opt.data.direction : "right";
+						button = _dummy.buttons.resize.clone();
+						button.addClass(_prefixIcon + etc.icons.resize + "-" + direction);
 						break;
 					default:
 						//opt.type = icon
@@ -485,17 +542,8 @@
 
 				}
 
-				// TODO: separate by types
 				if (opt.data != null && typeof opt.data == "object")
 					button.data(opt.data);
-				/*if(opt.type != "toggle"){
-				 button.attr("data-"+_prefix,"button");
-				 }else if(opt.type == "block"){
-				 button.attr("data-"+_prefix,opt.type);
-				 }else{
-				 button.attr("data-"+_prefix,opt.type);
-				 }*/
-
 
 				if (opt.selector == "") return button;
 			},
@@ -591,52 +639,6 @@
 				 if($.trim(val) != "") $("title").text(val);
 				 });*/
 				return content;
-			},
-			/**
-			 *
-			 * @param elem
-			 * @param bind
-			 */
-			toggleButton: function (elem, bind) {
-				/*elem.toggleClass("s-active");
-				 var fn;
-				 fn = ($.inArray(".",bind) >= 0) ? eval(bind) :
-				 (etc.fn[bind] != undefined) ? etc.fn[bind] :
-				 (window[bind] != undefined) ? window[bind] : null;
-
-				 if(fn != null) fn(elem);
-				 */
-			},
-			/**
-			 *
-			 * @param elem
-			 * @param bind
-			 */
-			blockButton: function (elem, bind) {
-				/*elem.toggleClass("s-active");
-				 var fn;
-				 fn = ($.inArray(".",bind) >= 0) ? eval(bind) :
-				 (etc.fn[bind] != undefined) ? etc.fn[bind] :
-				 (window[bind] != undefined) ? window[bind] : null;
-
-				 if(fn != null) fn(elem);
-				 var controls = {
-				 direction : "h",
-				 buttons : [
-				 {"name":"plus",data:{}}
-				 ]
-				 };
-				 $(elem).append(etc.fn.addToolbar(controls));*/
-			},
-			/**
-			 * Toggle dropdown menu
-			 * @param elem
-			 * @returns {boolean}
-			 */
-			toggleDropdown: function (elem) {
-
-
-				return true;
 			}
 		}
 	}

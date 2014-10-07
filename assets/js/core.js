@@ -29,7 +29,8 @@
 				},
 				etc.fn.addToolbar({
 					buttons: [
-						{"name": "store", type: "dropdown", data: {"bind": "toggleDropdown", "direction": "up", "menuheight": 100, "content": "getPageMenu"}},
+						/* Dropdown menu for example
+						{"name": "store", type: "dropdown", data: {"bind": "toggleDropdown", "direction": "up", "menuheight": 100, "content": "getPageMenu"}},*/
 						{"name": "template", data: {}},
 						{"name": "lorem", type: "toggle", data: {"bind": "etc.fn.grid.lorem"}},
 						{"name": "grid", type: "toggle", data: {"bind": "etc.fn.grid.toggle"}},
@@ -52,7 +53,6 @@
 		ready = true;
 		_layout.addClass(_prefix + "-" + ((ready) ? "ready" : "err"));
 
-		// TODO: separate listeners by types and merge similar
 		_layout.on("click", "[data-etc=button],[data-etc=toggle],[data-etc=block],[data-etc=dropdown]", function () {
 			var self = $(this);
 			var type = self.data(_prefix);
@@ -60,30 +60,52 @@
 			etc.fn.button[type](self, bind);
 			return false;
 		});
-		/*_layout.on("click","[data-etc=button]",function(){
-		 var self = $(this);
-		 var bind = self.data("bind");
-		 if(etc.fn[bind] != undefined) etc.fn[bind](self);
-		 return false;
-		 }).on("click","[data-etc=toggle]",function(){
-		 var self = $(this);
-		 var bind = self.data("bind");
-		 etc.fn.toggleButton(self,bind);
-		 }).on("click","[data-etc=block]",function(){
-		 var self = $(this);
-		 var bind = self.data("bind");
-		 etc.fn.blockButton(self,bind);
-		 });*/
 
+		_layout.on("click mousemove mouseenter mouseleave ","."+_prefix+"-col,."+_prefix+"-row",function(e){
+			var self = $(this);
+			var cssRemove = "s-toremove";
+			if(e.ctrlKey){
+				if(e.type == "mouseenter"){
+					self.addClass(cssRemove);
+				}else if(e.type == "mousemove" && !self.hasClass(cssRemove)){
+					self.addClass(cssRemove);
+				}
+				else if(e.type == "mouseleave") self.removeClass(cssRemove);
+				if(e.type == "click"){
+					etc.fn.grid.modify.remove(self);
 
-		_layout.on("mouseenter mouseleave", ".etc-container", function (e) {
-			switch (e.type) {
-				case "mouseenter":
-					break;
-				case "mouseleave":
-					break;
+				}
+				return false;
 			}
+			self.removeClass(cssRemove);
 		});
+
+		_layout.on("mouseenter mouseleave","."+_prefix+"-col",function(e){
+			var self = $(this);
+
+			if(e.type == "mouseleave"){
+				self.find(".etc-action-resize").remove();
+				return false;
+			}
+
+			var resize = etc.fn.grid.modify.testRowSize(self);
+
+			if(!resize){
+				console.info("row is full length");
+				return false;
+			}
+
+			self.append(etc.fn.addButton({
+				"name":"resize",
+				"type":"resize",
+				"data":{
+					"direction":"right",
+					"bind":"etc.fn.grid.modify.columnResize"
+					}
+				}));
+			return false;
+		});
+
 
 
 		// TODO: dummy for confirm close window if editing active
@@ -102,6 +124,7 @@
 			elem: $("#page"),
 			name: "base"
 		});
+		//$(".etc-action-switch,.etc-action-grid").trigger("click");
 	}
 
 	init();

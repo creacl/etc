@@ -161,7 +161,7 @@ body {
 .formInput {
   font-size: 120%;
   background: #ffffff;
-  color: #222222;
+  color: #444444;
   border: 1px solid #ccc;
   -webkit-border-radius: 0;
   -webkit-background-clip: padding-box;
@@ -171,15 +171,15 @@ body {
   background-clip: padding-box;
 }
 .formInputFocus {
-  color: #000000;
+  color: #111111;
   border-color: #999999;
 }
 .formInputHover {
-  color: #080808;
+  color: #2b2b2b;
   border-color: #b3b3b3;
 }
 .formInputActive {
-  color: #080808;
+  color: #2b2b2b;
   border-color: #b3b3b3;
 }
 .formButtonHover {
@@ -262,22 +262,22 @@ input:focus,
 select:focus,
 textarea:focus,
 button:focus {
-  color: #000000;
+  color: #111111;
   border-color: #999999;
 }
 input:hover,
 select:hover,
 textarea:hover,
 button:hover {
-  color: #080808;
+  color: #2b2b2b;
   border-color: #b3b3b3;
 }
 button {
   color: #ffffff;
-  background: #222222;
+  background: #444444;
 }
 button:active {
-  color: #080808;
+  color: #2b2b2b;
   border-color: #b3b3b3;
 }
 button:hover,
@@ -290,7 +290,7 @@ textarea,
 select {
   font-size: 120%;
   background: #ffffff;
-  color: #222222;
+  color: #444444;
   border: 1px solid #ccc;
   -webkit-border-radius: 0;
   -webkit-background-clip: padding-box;
@@ -531,6 +531,13 @@ button,
 .c-all-100 {
   width: 100%;
 }
+@font-face {
+  font-family: "BLOKKRegular";
+  src: url("../fonts/BLOKKRegular.eot");
+  src: url('../fonts/BLOKKRegular.eot?#iefix') format('embedded-opentype'), url('../fonts/BLOKKRegular.woff') format('woff'), url('../fonts/BLOKKRegular.svg#../fonts/BLOKKRegular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
 /*@columnPadding: 5px 5px;
 .row {
 	.col {
@@ -546,6 +553,21 @@ button,
   margin-top: 40px;
   width: 200px;
   height: 300px;
+}
+body {
+  background: #eee;
+}
+body.s-lorem {
+  font-family: 'BLOKKRegular';
+  font-size: 100%;
+}
+body.s-lorem h1,
+body.s-lorem h2,
+body.s-lorem h3,
+body.s-lorem h4,
+body.s-lorem h5,
+body.s-lorem h6 {
+  font-family: 'BLOKKRegular';
 }
 .defBlockActive {
   outline-color: rgba(0, 0, 0, 0.1);
@@ -595,6 +617,9 @@ html.wf-active body {
 .etc-container {
   text-align: center;
 }
+.etc-row {
+  text-align: left;
+}
 .etc-active .etc-block {
   outline-color: rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
@@ -604,17 +629,31 @@ html.wf-active body {
 .etc-active.s-show-grid .etc-col,
 .etc-active.s-show-grid .etc-row,
 .etc-active.s-show-grid .etc-container {
+  border-color: rgba(0, 0, 0, 0.2);
+  border-style: dashed;
   -webkit-transition: all 0.2s, linear;
   -moz-transition: all 0.2s, linear;
   -o-transition: all 0.2s, linear;
   transition: all 0.2s, linear;
-  outline: 1px solid rgba(0, 0, 0, 0.15);
-  background: rgba(34, 34, 34, 0.15);
 }
 .etc-active.s-show-grid .etc-col:empty,
 .etc-active.s-show-grid .etc-row:empty,
 .etc-active.s-show-grid .etc-container:empty {
   padding: 20px;
+}
+.etc-active.s-show-grid .etc-row {
+  border-bottom-width: 1px;
+}
+.etc-active.s-show-grid .etc-col {
+  border-right-width: 1px;
+  /*min-height: 30px;
+							line-height: 30px;*/
+}
+.etc-active.s-show-grid .etc-col:last-child {
+  border-right-width: none;
+}
+.etc-active.s-show-grid .etc-col:empty {
+  padding: 15px;
 }
 .etc-active.s-show-grid .page-layout {
   padding-bottom: 20px;
@@ -632,27 +671,41 @@ html.wf-active body {
   right: 0;
 }
 .etc-toolbar-switch .etc-button {
+  padding: 8px 10px;
+  padding-bottom: 6px;
   font-size: 24px;
   background: #f1e05a;
   color: #222;
 }
+.etc-toolbar-switch .etc-button-dropdown {
+  background: #dadad7;
+}
+.etc-toolbar-switch .etc-button-dropdown-menu {
+  background: #dadad7;
+}
 .etc-button-block {
-  background: #333333;
+  position: relative;
+  background: #404040;
   display: inline-block;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
   margin-top: 0;
   margin-left: 0;
+  margin: 5px;
+  margin-bottom: 5px -1;
   padding: 0;
-  width: 14px;
-  height: 14px;
+  width: 19px;
+  height: 19px;
   cursor: pointer;
+  -webkit-transition: all 0.3s, linear;
+  -moz-transition: all 0.3s, linear;
+  -o-transition: all 0.3s, linear;
+  transition: all 0.3s, linear;
 }
 .etc-button-block.s-active {
   width: auto;
   height: auto;
-  position: absolute;
 }
 .etc-button-block.s-active .etc-button-block-toolbar {
   display: block;
@@ -663,14 +716,11 @@ html.wf-active body {
   -webkit-box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
   box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
-  margin-top: -2px;
-  margin-left: -2px;
-  -webkit-transition: all 0.3s, linear;
-  -moz-transition: all 0.3s, linear;
-  -o-transition: all 0.3s, linear;
-  transition: all 0.3s, linear;
+  margin-top: 3px -1;
+  margin-left: 3px;
 }
 .etc-button-block.s-active {
+  backgroud: #000;
   overflow-y: hidden;
 }
 .etc-button-icon,
@@ -680,9 +730,6 @@ html.wf-active body {
   padding: 0.2em 0.3em;
   line-height: 1em;
   text-align: center;
-}
-.etc-button-dropdown {
-  background: #555555;
 }
 .etc-button-dropdown-toggle {
   margin-left: 4px;
@@ -695,7 +742,6 @@ html.wf-active body {
   transition: all 0.2s, linear;
   display: none;
   position: fixed;
-  background: #555555;
   left: 0;
   right: 0;
 }

@@ -1,28 +1,43 @@
 @import "vendors/frame/base";
+@import "fonts";
 @import "vendors/frame/test";
+
 
 @defFontFamily: 'Roboto', sans-serif;
 @headerFontFamily: 'Roboto', sans-serif;
 
-@_prefix:etc;
-@formDefColor:#222;
+@_prefix: etc;
+@formDefColor: #444;
 //@formDefBackground:#f1e05a;
-@buttonDefBackground:@formDefColor;//#f1e05a;
-@buttonDefColor:#fff;
-@gridBackground:fade(desaturate(spin(@buttonDefBackground,140),65),15);
-@textSize:14px;
+@buttonDefBackground: @formDefColor;
+//#f1e05a;
+@buttonDefColor: #fff;
+@gridBackground: fade(desaturate(spin(@buttonDefBackground, 140), 65), 15);
+@textSize: 14px;
 
-body{
+body {
+	background: #eee;
+	&.s{
+		&-lorem{
+			@blockFont:'BLOKKRegular';
+			font-family:@blockFont;
+			h1,h2,h3,h4,h5,h6{
+				font-family:@blockFont;
+			}
+			font-size:100%;
+		}
+	}
 }
-.defBlockActive{
-	outline-color: rgba(0,0,0,0.1);
-	.box-shadow(4px 4px 0 rgba(0,0,0,0.2));
+
+.defBlockActive {
+	outline-color: rgba(0, 0, 0, 0.1);
+	.box-shadow(4px 4px 0 rgba(0, 0, 0, 0.2));
 }
-@defFxTime:0.2s;
-.defShowFx(@variable:opacity @defFxTime){
+
+@defFxTime: 0.2s;
+.defShowFx(@variable:opacity @defFxTime) {
 	.transition(@variable linear);
 }
-
 
 //Prefix notation(frame framework)
 /*
@@ -41,54 +56,78 @@ body{
 * .etc-dropzone selector for file uploader dropzone
 */
 
-html,body{
-	height:100%;
+html, body {
+	height: 100%;
 }
-html{
-	body{
+
+html {
+	body {
 		opacity: 0;
 		.defShowFx();
 	}
-	&.wf-active{
-		body{
+	&.wf-active {
+		body {
 			opacity: 1;
 		}
 	}
 }
 
-.@{_prefix}{
-
-	&-block{
-		outline: 1px solid rgba(255,255,255,0);
+.@{_prefix} {
+	&-block {
+		outline: 1px solid rgba(255, 255, 255, 0);
 		.box-sizing(border-box);
 		.defShowFx(all @defFxTime);
 
 	}
-	&-col,&-row,&-container{
+	&-col, &-row, &-container {
 		text-align: center;
 	}
-	&-active{
-		.@{_prefix}{
-			&-block{
+	&-row {
+		text-align: left;
+	}
+	&-active {
+		.@{_prefix} {
+			&-block {
 				.defBlockActive;
 			}
 		}
-		&.s{
-			&-show{
-				&-grid{
-					.@{_prefix}{
-						&-col,&-row,&-container{
-
+		&.s {
+			&-show {
+				&-grid {
+					.@{_prefix} {
+						&-col, &-row, &-container {
+							border-color:rgba(0,0,0,0.2);
+							border-style:dashed;
+							//outline-color: rgba(0,0,0,0.2);
+							//outline-style: dashed;
 							.defShowFx(all @defFxTime);
-							outline:1px solid darken(@gridBackground,40);
-							background: @gridBackground;
-							&:empty{
-								padding:20px;
+							//outline: 1px solid darken(@gridBackground, 40);
+							//background: @gridBackground;
+							&:empty {
+								padding: 20px;
 							}
 						}
+						&-container{
+							//border-bottom-width:1px;
+						}
+						&-row{
+							border-bottom-width:1px;
+						}
+						&-col{
+							border-right-width: 1px;
+							/*min-height: 30px;
+							line-height: 30px;*/
+							&:last-child{
+								border-right-width: none;
+							}
+							&:empty{
+								padding:15px;
+							}
+						}
+
 					}
-					.page{
-						&-layout{
+					.page {
+						&-layout {
 							padding-bottom: 20px;
 						}
 					}
@@ -96,148 +135,173 @@ html{
 			}
 		}
 	}
-	&-accent{
+	&-accent {
 
 	}
-	&-toolbar{
+	&-toolbar {
 		.defShowFx(all @defFxTime);
 
 	}
-	&-toolbar{
+	&-toolbar {
 
-		&-switch{
+		&-switch {
 			z-index: 10000;
 			position: fixed;
-			bottom:0;
-			right:0;
-			@buttonDefBackground:#f1e05a;
-			@gridBackground:fade(desaturate(spin(@buttonDefBackground,140),65),15);
-			.@{_prefix}-button{
-				font-size:24px;
+			bottom: 0;
+			right: 0;
+			@buttonDefBackground: #f1e05a;
+			@gridBackground: fade(desaturate(spin(@buttonDefBackground, 140), 65), 15);
+			.@{_prefix}-button {
+				padding: 8px 10px;
+				padding-bottom: 6px;
+				font-size: 24px;
 				background: @buttonDefBackground;
-				color:#222;
+				color: #222;
+
+				&-dropdown {
+					@dropdownBackground: lighten(desaturate(@buttonDefBackground, 80), 20);
+					background: @dropdownBackground;
+					&-menu {
+						background: @dropdownBackground;
+					}
+					&.s {
+						&-open {
+							//padding-top:0.25em;
+						}
+					}
+				}
 			}
 		}
 	}
-	&-button{
+	&-button {
 		//font-size:1.3em;
-		&-block{
-			@lift:2px;
-			background: @textColor;
+		&-block {
+			//position: absolute;
+			position: relative;
+			@defMargin: 5px;
+			@lift: 2px;
+			background: lighten(@textColor, 5);
 			display: inline-block;
 			.box-shadow(none);
-			margin-top:0;
-			margin-left:0;
-			padding:0;
-			width:14px;
-			height:14px;
-			cursor:pointer;
+			margin-top: 0;
+			margin-left: 0;
 
-			&.s-active{
-				width:auto;
-				height:auto;
-				position: absolute;
-				.@{_prefix}-button-block-toolbar{
+			margin: @defMargin; //5px;
+			margin-bottom: @defMargin -1;
+			padding: 0;
+			width: 19px;
+			height: 19px;
+			cursor: pointer;
+			.defShowFx(all 0.3s);
+
+			&.s-active {
+				width: auto;
+				height: auto;
+				.@{_prefix}-button-block-toolbar {
 					display: block;
 				}
 			}
-			&:hover,&.s-open,&.s-active{
-				.box-shadow(@lift @lift 0 rgba(0,0,0,0.15));
-				margin-top:-@lift;
-				margin-left:-@lift;
-				.defShowFx(all 0.3s);
+			&:hover, &.s-open, &.s-active {
+				.box-shadow(@lift @lift 0 rgba(0, 0, 0, 0.15));
+				margin-top: @defMargin - @lift -1;
+				margin-left: @defMargin - @lift;
+				//margin-bottom:@defMargin + @lift;
+				//margin-right:@defMargin + @lift;
+
 			}
-			&.s-active{
+			&.s-active {
+				backgroud: #000;
 				overflow-y: hidden;
 			}
 		}
-		&-icon,&-dropdown,&-toggle{
+		&-icon, &-dropdown, &-toggle {
 
-			font-size:14px;
+			font-size: 14px;
 			padding: 0.2em 0.3em;
+
 			line-height: 1em;
 			text-align: center;
 		}
-		&-dropdown{
-			@dropdownBackground:lighten(desaturate(@buttonDefBackground,80),20);
+		&-dropdown {
+			//@dropdownBackground:lighten(desaturate(@buttonDefBackground,80),20);
 			//padding-top: 4px;
-			background: @dropdownBackground;
-			&-toggle{
-				margin-left:4px;
-				margin-top:-2px;
+			//background: #000;//@dropdownBackground;
+			&-toggle {
+				margin-left: 4px;
+				margin-top: -2px;
 			}
-			&-menu{
+			&-menu {
 				.defShowFx(all @defFxTime);
 				display: none;
 				position: fixed;
-				background: @dropdownBackground;
+				//background: @dropdownBackground;
 				left: 0;
 				right: 0;
 			}
 		}
-		&-toggle{
-			&:before{
+		&-toggle {
+			&:before {
 				opacity: 0.5;
 				.defShowFx(opacity @defFxTime);
 			}
-			&.s{
-				&-active{
-					&:before{
+			&.s {
+				&-active {
+					&:before {
 						opacity: 1;
 					}
 				}
 			}
 		}
 	}
-	&-dropzone{
+	&-dropzone {
 		position: fixed;
-		top:0;
-		bottom:0;
-		left:0;
-		right:0;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
 		display: none;
 		text-align: center;
 		.defShowFx(background 1s);
-		&:before{
+		&:before {
 			margin: 0 auto;
 			position: absolute;
 			display: block;
-			left:47%;
-			top:50%;
-			font-size:4em;
-			opacity:0;
+			left: 47%;
+			top: 50%;
+			font-size: 4em;
+			opacity: 0;
 		}
-		&.s{
-			&-dragenter,&-drop{
-				background: rgba(0,0,0,0.5);
+		&.s {
+			&-dragenter, &-drop {
+				background: rgba(0, 0, 0, 0.5);
 			}
 		}
-		&-body{
-			margin:0 auto;
+		&-body {
+			margin: 0 auto;
 			display: inline-block;
 			text-align: left;
 			//position: fixed;
-			.@{_prefix}-block{
-				display:inline-block;
-				height:40px;
-				width:40px;
-				margin:4px;
+			.@{_prefix}-block {
+				display: inline-block;
+				height: 40px;
+				width: 40px;
+				margin: 4px;
 				overflow: hidden;
 				text-align: center;
 				background: #fff;
-				color:#777777;
+				color: #777777;
 				.border-radius(1px);
-				.box-shadow(0 0 4px rgba(0,0,0,0.4));
+				.box-shadow(0 0 4px rgba(0, 0, 0, 0.4));
 				//text-shadow:0 1px 0 rgba(0,0,0,0.2);
-				.@{_prefix}-progress{
-					height:3px;
-					&-bar{
-						height:100%;
+				.@{_prefix}-progress {
+					height: 3px;
+					&-bar {
+						height: 100%;
 						background: rgba(23, 94, 160, 0.5);
 					}
 				}
-				&-title{
-					margin-top:0.6em;
+				&-title {
+					margin-top: 0.6em;
 					//color:#fff;
 					font-weight: 100;
 					text-transform: uppercase;
